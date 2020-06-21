@@ -17,7 +17,10 @@
     "url": "https://github.com/Geschoss/article/issues"
   },
   "homepage": "https://github.com/Geschoss/article#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@types/ramda": "^0.27.6",
+    "ramda": "^0.27.0"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.0.1",
     "@typescript-eslint/parser": "^3.0.1",
