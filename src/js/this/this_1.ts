@@ -1,10 +1,18 @@
-function Task(status, id) {
+type TaskType = {
+    id: number;
+    status: string;
+    showInfo: () => void;
+}
+
+// особый синтаксис для this
+// https://www.typescriptlang.org/docs/handbook/functions.html#this
+function Task(this: TaskType, status: string, id: number) {
 
     this.id = id + 100000;
 
     this.status = `_${status}_`;
 
-    this.showInfo = function() {
+    this.showInfo = function(this: TaskType) {
         console.log(`
             id: ${this.id}
             status: ${this.status}
@@ -23,13 +31,13 @@ const doc = {
     }
 }
 
-function TaskInner(status, id) {
+function TaskInner(this: TaskType, status: string, id: number) {
 
     this.id = id + 100000;
 
     this.status = `_${status}_`;
 
-    this.showInfo = function() {
+    this.showInfo = function(this: TaskType) {
         console.log(`
             id: ${this.id}
             status: ${this.status}
