@@ -1,0 +1,16 @@
+html {
+    background-color: grey;
+}
+
+.container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-gap: 10px 40px;
+}
+
+.container > * {
+    background-color: mediumblue;
+    font-size: 40px;
+}
+

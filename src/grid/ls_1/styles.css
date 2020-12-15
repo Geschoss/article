@@ -1,0 +1,49 @@
+html {
+    background-color: grey;
+}
+
+.container {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-areas:
+        "header"
+        "section"
+        "aside-1"
+        "aside-2"
+        "footer";
+}
+
+
+.container > * {
+    background-color: mediumblue;
+    font-size: 40px;
+}
+
+@media (min-width: 700px) {
+    .container {
+        grid-template-areas: 
+            "header header header"
+            "aside-1 section aside-2"
+            "footer footer footer";
+    }
+}
+
+header {
+    grid-area: header;
+}
+
+aside:nth-of-type(1) {
+    grid-area: aside-1;
+}
+
+aside:nth-of-type(2) {
+    grid-area: aside-2;
+}
+
+section {
+    grid-area: section;
+}
+
+footer {
+    grid-area: footer;
+}

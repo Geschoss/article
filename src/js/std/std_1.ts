@@ -28,10 +28,9 @@ const returningValue: OfferFormValue = {
 };
 
 const makeOfferFormValue = (offer: Offer): OfferFormValue => {
-    return offer;
-};
+    return offer.offerName;
+}
 
 const formValue = makeOfferFormValue(offer);
 
 console.log(formValue);
-console.log(returningValue);
