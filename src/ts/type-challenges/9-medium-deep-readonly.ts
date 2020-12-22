@@ -5,7 +5,7 @@ type X9 = {
     };
     y: string;
 };
-
+    
 type DeepReadonly<T> = T extends never
     ? T
     : { readonly [K in keyof T]: DeepReadonly<T[K]> };
