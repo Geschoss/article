@@ -31,21 +31,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type SelectPrecent<
-    S extends string,
-    T extends [string, string]
-> = S extends `${infer Head}${infer Rest}`
-    ? Head extends '%'
-        ? [T[0], Head]
-        : Rest extends never
-        ? [`${T[0]}${Head}`, '']
-        : SelectPrecent<Rest, [`${T[0]}${Head}`, '']>
-    : [`${T[0]}${S}`, ''];
+type SelectPrecent<S extends string> = S extends `${infer Number}%`
+    ? [Number, '%']
+    : [S, ''];
 
 type PercentageParser<A extends string> = A extends `${infer Head}${infer Rest}`
     ? Head extends '+' | '-'
-        ? [Head, ...SelectPrecent<Rest, ['', '']>]
-        : ['', ...SelectPrecent<A, ['', '']>]
+        ? [Head, ...SelectPrecent<Rest>]
+        : ['', ...SelectPrecent<A>]
     : ['', '', ''];
 
 type T = PercentageParser<''>;
