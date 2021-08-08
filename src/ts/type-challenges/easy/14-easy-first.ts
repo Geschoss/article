@@ -3,7 +3,7 @@ type arr2 = [3, 2, 1]
 type arr3 = [3]
 type arr4 = []
 
-type First<T extends ReadonlyArray<any>> = T extends never[] ? never : T[0];
+type First<T extends ReadonlyArray<any>> = T extends [] ? never : T[0];
 
 type head1 = First<arr1> // expected to be 'a'
 type head2 = First<arr2> // expected to be 3
