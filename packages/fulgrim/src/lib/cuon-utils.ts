@@ -14,6 +14,8 @@ export const initShaders = (
     }
 
     gl.useProgram(program);
+
+    return program;
 };
 
 /**

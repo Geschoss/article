@@ -1,6 +1,8 @@
 export const vertex = `
+attribute vec4 a_Position;
+attribute float a_PointSize;
 void main() {
-    gl_Position = vec4(0.5, 0.2, 0.5, 1.0);
-    gl_PointSize = 5.0;
+    gl_Position = a_Position;
+    gl_PointSize = a_PointSize;
 }
 `;
