@@ -2,18 +2,19 @@ import { WebGLUtils } from './webgl-utils';
 import { WebGLDebugUtils } from './webgl-debug';
 import { warn } from './std';
 
-function initShaders(gl, vshader, fshader) {
+export const initShaders = (
+    gl: WebGLRenderingContext,
+    vshader: string,
+    fshader: string
+) => {
     var program = createProgram(gl, vshader, fshader);
     if (!program) {
-        console.log('Failed to create program');
-        return false;
+        warn('Failed to create program');
+        throw new Error('Failed to create program');
     }
 
     gl.useProgram(program);
-    gl.program = program;
-
-    return true;
-}
+};
 
 /**
  * Create the linked program object
@@ -22,7 +23,11 @@ function initShaders(gl, vshader, fshader) {
  * @param fshader a fragment shader program (string)
  * @return created program object, or null if the creation has failed
  */
-function createProgram(gl, vshader, fshader) {
+function createProgram(
+    gl: WebGLRenderingContext,
+    vshader: string,
+    fshader: string
+) {
     // Create shader object
     var vertexShader = loadShader(gl, gl.VERTEX_SHADER, vshader);
     var fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fshader);
@@ -67,7 +72,7 @@ function loadShader(gl, type, source) {
     // Create shader object
     var shader = gl.createShader(type);
     if (shader == null) {
-        console.log('unable to create shader');
+        warn('unable to create shader');
         return null;
     }
 
@@ -81,7 +86,7 @@ function loadShader(gl, type, source) {
     var compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
     if (!compiled) {
         var error = gl.getShaderInfoLog(shader);
-        console.log('Failed to compile shader: ' + error);
+        warn('Failed to compile shader: ' + error);
         gl.deleteShader(shader);
         return null;
     }
@@ -95,7 +100,10 @@ function loadShader(gl, type, source) {
  * @param opt_debug flag to initialize the context for debugging
  * @return the rendering context for WebGL
  */
-export const getWebGLContext = (canvas, opt_debug = true) => {
+export const getWebGLContext = (
+    canvas: HTMLCanvasElement,
+    opt_debug = true
+): WebGLRenderingContext => {
     // Get the rendering context for WebGL
     var gl = WebGLUtils.setupWebGL(canvas);
     if (!gl) {
