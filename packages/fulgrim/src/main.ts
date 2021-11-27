@@ -1,49 +1,51 @@
 import './style.css';
 import { getWebGLContext, initShaders } from './lib/cuon-utils';
+import { Matrix4 } from './lib/cuon-matrix';
 import { point } from './shaders';
 
-const ANGLE = 40.0;
-const Tx = 0.2, Ty = 0.2, Tz = 0.0;
-const S = 1;
-const Sx = S, Sy = S, Sz = S;
+let Tx = 0.5;
+let ANGLE_STEP = 40.0;
 
 const main = () => {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    const input_tx = document.getElementById('input_tx') as HTMLInputElement;
+    const button_up = document.getElementById('button_up') as HTMLButtonElement;
+    const button_down = document.getElementById('button_down') as HTMLButtonElement;
 
     const gl = getWebGLContext(canvas);
-
     const program = initShaders(gl, point.vertex, point.fragmetn);
-    
     const n = initVertexBuffers(gl, program);
 
-    
-    const radian = (Math.PI * ANGLE) / 180.0;
-    const cosB = Math.cos(radian);
-    const sinB = Math.sin(radian);
+    gl.clearColor(0.1, 0.1, 0.1, 0.2);
 
-    const xformMatrix = new Float32Array([
-        cosB * Sx, sinB, 0.0, Tx,
-        -sinB, cosB * Sy, 0.0, Ty,
-        0.0, 0.0, 1.0 * Sz, Tz,
-        0.0, 0.0, 0.0, 1.0,
-    ])
+    let currentAngle = 0.0;
 
-    
-    const u_xformMatrix = gl.getUniformLocation(program, 'u_xformMatrix');
+    const modelMatrix = new Matrix4();
+    const u_ModelMatrix = gl.getUniformLocation(program, 'u_ModelMatrix');
 
-    gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix);
+    let tick = function () {
+        currentAngle = animate(currentAngle);
+        draw(gl, n, currentAngle, modelMatrix, u_ModelMatrix);
+        requestAnimationFrame(tick);
+    };
 
-    gl.clearColor(0.0, 0.2, 0.2, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    tick();
 
-    gl.drawArrays(gl.TRIANGLE_FAN, 0, n);
+    button_up.addEventListener('click', () => {
+        ANGLE_STEP = ANGLE_STEP + 10;
+    })
+
+    button_down.addEventListener('click', () => {
+        ANGLE_STEP = ANGLE_STEP - 10;
+    })
+
+    input_tx.addEventListener('input', (event) => {
+        Tx = event.target.value / 10;
+    })
 };
 
 function initVertexBuffers(gl: WebGLRenderingContext, program: WebGLProgram) {
-    const atom = 0.125;
-    const vertices = new Float32Array(
-        [-4, 4, -4, -4, 4, 4, 4, -4].map((v) => v * atom)
-    );
+    const vertices = new Float32Array([0, 0.3, -0.3, -0.3, 0.3, -0.3]);
     const n = vertices.length / 2;
 
     const vertexBuffer = gl.createBuffer();
@@ -58,6 +60,33 @@ function initVertexBuffers(gl: WebGLRenderingContext, program: WebGLProgram) {
     gl.enableVertexAttribArray(a_Position);
 
     return n;
+}
+
+function draw(
+    gl: WebGLRenderingContext,
+    n: number,
+    currentAngle,
+    modelMatrix: Matrix4,
+    u_ModelMatrix: WebGLUniformLocation
+) {
+    modelMatrix.setTranslate(Tx, 0, 0);
+    modelMatrix.rotate(currentAngle, 1, 1, 0);
+
+    gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
+
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    gl.drawArrays(gl.TRIANGLES, 0, n);
+}
+
+let g_last = Date.now();
+function animate(angle: number) {
+    let now = Date.now();
+
+    let elapsed = now - g_last;
+    g_last = now;
+
+    return (angle + (ANGLE_STEP * elapsed) / 1000.0) % 360;
 }
 
 document.addEventListener('DOMContentLoaded', main);
