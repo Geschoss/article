@@ -2,7 +2,6 @@ import './style.css';
 import { getWebGLContext, initShaders } from './lib/cuon-utils';
 import { Matrix4 } from './lib/cuon-matrix';
 import { point } from './shaders';
-import { createBuffer } from './lib/gl-lib';
 import { initElements } from './lib/std';
 
 let Tx = 0.5;
@@ -19,12 +18,9 @@ const main = () => {
 
     let currentAngle = 0.0;
 
-    const modelMatrix = new Matrix4();
-    const u_ModelMatrix = gl.getUniformLocation(program, 'u_ModelMatrix');
-
     let tick = function () {
         currentAngle = animate(currentAngle);
-        draw(gl, n, currentAngle, modelMatrix, u_ModelMatrix);
+        draw(gl, program, n, currentAngle);
         requestAnimationFrame(tick);
     };
 
@@ -81,15 +77,21 @@ function initVertexBuffers(gl: WebGLRenderingContext, program: WebGLProgram) {
 
 function draw(
     gl: WebGLRenderingContext,
+    program: WebGLProgram,
     n: number,
-    currentAngle,
-    modelMatrix: Matrix4,
-    u_ModelMatrix: WebGLUniformLocation
+    currentAngle: number
 ) {
-    modelMatrix.setTranslate(Tx, 0, 0);
-    modelMatrix.rotate(currentAngle, 1, 1, 0);
+    const modelMatrix = new Matrix4();
+    const u_ModelMatrix = gl.getUniformLocation(program, 'u_ModelMatrix');
+    const u_Width = gl.getUniformLocation(program, 'u_Width');
+    const u_Height = gl.getUniformLocation(program, 'u_Height');
+
+    modelMatrix.setRotate(currentAngle, 1, 1, 0);
+    modelMatrix.translate(Tx, 0, 0);
 
     gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
+    gl.uniform1f(u_Height, 600);
+    gl.uniform1f(u_Width, 600);
 
     gl.clear(gl.COLOR_BUFFER_BIT);
 
