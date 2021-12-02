@@ -1,15 +1,14 @@
 {
-  "name": "fulgrim",
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "devDependencies": {
-    "vite": "^2.6.4"
-  },
-  "dependencies": {
-    "typescript": "^4.5.2"
-  }
+    "name": "fulgrim",
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "prettier": "^2.5.0",
+        "typescript": "^4.5.2",
+        "vite": "^2.6.4"
+    },
+    "dependencies": {}
 }
