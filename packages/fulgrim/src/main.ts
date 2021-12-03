@@ -1,41 +1,28 @@
 import './style.css';
-import { getWebGLContext, initShaders } from './lib/cuon-utils';
+import { initShaders } from './lib/cuon-utils';
 import { Matrix4 } from './lib/cuon-matrix';
 import { point } from './shaders';
-import { initElements } from './lib/std';
+import { background, createCanvas, setup, draw } from './sdk';
 
 let Tx = 0.5;
 let ANGLE_STEP = 40.0;
 
 const main = () => {
-    const { canvas, button_down, button_up, input_tx } = initElements();
+    let program;
+    let n;
+    setup((state) => {
+        createCanvas(800, 600);
+        background();
 
-    const gl = getWebGLContext(canvas);
-    const program = initShaders(gl, point.vertex, point.fragmetn);
-    const n = initVertexBuffers(gl, program);
-
-    gl.clearColor(0.1, 0.1, 0.1, 0.2);
+        program = initShaders(state.gl, point.vertex, point.fragmetn);
+        n = initVertexBuffers(state.gl, program);
+    });
 
     let currentAngle = 0.0;
 
-    let tick = function () {
-        currentAngle = animate(currentAngle);
-        draw(gl, program, n, currentAngle);
-        requestAnimationFrame(tick);
-    };
-
-    tick();
-
-    button_up.addEventListener('click', () => {
-        ANGLE_STEP = ANGLE_STEP + 10;
-    });
-
-    button_down.addEventListener('click', () => {
-        ANGLE_STEP = ANGLE_STEP - 10;
-    });
-
-    input_tx.addEventListener('input', (event) => {
-        Tx = event.target.value / 10;
+    draw((state, time) => {
+        currentAngle = (currentAngle + (ANGLE_STEP * time) / 1000.0) % 360;
+        drawTriangle(state.gl, program, n, currentAngle);
     });
 };
 
@@ -75,7 +62,7 @@ function initVertexBuffers(gl: WebGLRenderingContext, program: WebGLProgram) {
     return n;
 }
 
-function draw(
+function drawTriangle(
     gl: WebGLRenderingContext,
     program: WebGLProgram,
     n: number,
@@ -96,16 +83,6 @@ function draw(
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     gl.drawArrays(gl.TRIANGLES, 0, n);
-}
-
-let g_last = Date.now();
-function animate(angle: number) {
-    let now = Date.now();
-
-    let elapsed = now - g_last;
-    g_last = now;
-
-    return (angle + (ANGLE_STEP * elapsed) / 1000.0) % 360;
 }
 
 document.addEventListener('DOMContentLoaded', main);

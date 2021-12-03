@@ -12,3 +12,16 @@ export const initElements = () => ({
     button_up: document.getElementById('button_up') as HTMLButtonElement,
     button_down: document.getElementById('button_down') as HTMLButtonElement,
 });
+
+export const random = (s: number, e: number) =>
+    Math.floor(Math.random() * (e + s));
+
+export const range = (from: number, to: number) => {
+    let result = [];
+    let n = from;
+    while (n < to) {
+        result.push(n);
+        n += 1;
+    }
+    return result;
+};
