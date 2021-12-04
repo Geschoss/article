@@ -1,5 +1,5 @@
-import { random, range } from './lib/std';
-import { setup, draw, createCanvas, background } from './sdk';
+import { random, range } from '../../sdk/lib/std';
+import { setup, draw, createCanvas, background } from '../../sdk';
 
 class Start {
     x: number;

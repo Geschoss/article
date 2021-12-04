@@ -1,4 +1,4 @@
-import { getWebGLContext } from '../lib/cuon-utils';
+import { getWebGLContext } from './lib/cuon-utils';
 import { createState } from './state';
 
 const state = createState();
@@ -17,10 +17,11 @@ export const createCanvas = (width: number, height: number) => {
     state.init({ canvas, gl });
 };
 
-export const background = (red = 0, green = 0, blue = 0, alpha = 1) => {
+const toRGB = 2.55 * 100;
+export const background = (red = 0, green = red, blue = red, alpha = 1) => {
     const { gl } = state;
 
-    gl.clearColor(red, green, blue, alpha);
+    gl.clearColor(red / toRGB, green / toRGB, blue / toRGB, alpha);
     gl.clear(gl.COLOR_BUFFER_BIT);
 };
 

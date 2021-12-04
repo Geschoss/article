@@ -1,3 +1,5 @@
+import { log } from "./lib/std";
+
 export const createState = () => {
     let canvas: HTMLCanvasElement;
     let gl: WebGLRenderingContext;
@@ -11,6 +13,7 @@ export const createState = () => {
             return canvas.width;
         },
         get height() {
+            log('height');
             return canvas.height;
         },
         get gl() {
