@@ -22,9 +22,11 @@ export class Matrix4 {
         }
     }
 
+    scale = scale;
     concat = concat;
     rotate = rotate;
     multiply = concat;
+    setScale = setScale;
     translate = translate;
     setRotate = setRotate;
     setIdentity = setIdentity;
@@ -238,4 +240,34 @@ function setRotate(angle: number, x: Toggle, y: Toggle, z: Toggle) {
     return this;
 };
 
-
+/**
+ * Set the matrix for scaling.
+ * @param x The scale factor along the X axis
+ * @param y The scale factor along the Y axis
+ * @param z The scale factor along the Z axis
+ * @return this
+ */
+function setScale(x: number, y: number, z: number) {
+    var e = this.elements;
+    e[0] = x;  e[4] = 0;  e[8]  = 0;  e[12] = 0;
+    e[1] = 0;  e[5] = y;  e[9]  = 0;  e[13] = 0;
+    e[2] = 0;  e[6] = 0;  e[10] = z;  e[14] = 0;
+    e[3] = 0;  e[7] = 0;  e[11] = 0;  e[15] = 1;
+    return this;
+};
+  
+  /**
+   * Multiply the matrix for scaling from the right.
+   * @param x The scale factor along the X axis
+   * @param y The scale factor along the Y axis
+   * @param z The scale factor along the Z axis
+   * @return this
+   */
+function scale(x: number, y: number, z: number) {
+    var e = this.elements;
+    e[0] *= x;  e[4] *= y;  e[8]  *= z;
+    e[1] *= x;  e[5] *= y;  e[9]  *= z;
+    e[2] *= x;  e[6] *= y;  e[10] *= z;
+    e[3] *= x;  e[7] *= y;  e[11] *= z;
+    return this;
+};
