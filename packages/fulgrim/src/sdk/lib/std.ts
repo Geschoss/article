@@ -13,8 +13,8 @@ export const initElements = () => ({
     button_down: document.getElementById('button_down') as HTMLButtonElement,
 });
 
-export const random = (s: number, e: number) =>
-    Math.floor(Math.random() * (e + s));
+export const random = (min: number, max: number) =>
+    (Math.random() / 1) * (max - min) + min;
 
 export const range = (from: number, to: number) => {
     let result = [];
