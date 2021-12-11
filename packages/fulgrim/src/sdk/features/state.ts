@@ -1,4 +1,5 @@
-export const createState = () => {
+// TODO упростить
+export const createStore = () => {
     let gl: WebGLRenderingContext;
     let canvas: HTMLCanvasElement;
     let program: WebGLProgram;
@@ -9,6 +10,7 @@ export const createState = () => {
         init(props) {
             gl = props.gl;
             canvas = props.canvas;
+            program = props.program;
         },
         get width() {
             return canvas.width;
@@ -21,9 +23,6 @@ export const createState = () => {
         },
         get program() {
             return program;
-        },
-        set program(value) {
-            program = value;
         },
         get points() {
             return points;
@@ -39,3 +38,5 @@ export const createState = () => {
         },
     };
 };
+
+export const store = createStore();

@@ -1,45 +1,15 @@
-import { WebGLUtils } from './webgl-utils';
-import { WebGLDebugUtils } from './webgl-debug';
-import { warn } from './std';
+import { warn } from '../std';
 
 export const initShaders = (
     gl: WebGLRenderingContext,
+    program: WebGLProgram,
     vshader: string,
     fshader: string
 ) => {
-    var program = createProgram(gl, vshader, fshader);
-    if (!program) {
-        warn('Failed to create program');
-        throw new Error('Failed to create program');
-    }
-
-    gl.useProgram(program);
-
-    return program;
-};
-
-/**
- * Create the linked program object
- * @param gl GL context
- * @param vshader a vertex shader program (string)
- * @param fshader a fragment shader program (string)
- * @return created program object, or null if the creation has failed
- */
-function createProgram(
-    gl: WebGLRenderingContext,
-    vshader: string,
-    fshader: string
-) {
     // Create shader object
     var vertexShader = loadShader(gl, gl.VERTEX_SHADER, vshader);
     var fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fshader);
     if (!vertexShader || !fragmentShader) {
-        return null;
-    }
-
-    // Create a program object
-    var program = gl.createProgram();
-    if (!program) {
         return null;
     }
 
@@ -60,8 +30,9 @@ function createProgram(
         gl.deleteShader(vertexShader);
         return null;
     }
-    return program;
-}
+
+    gl.useProgram(program);
+};
 
 /**
  * Create a shader object
@@ -70,7 +41,7 @@ function createProgram(
  * @param source shader program (string)
  * @return created shader object, or null if the creation has failed.
  */
-function loadShader(gl, type, source) {
+function loadShader(gl: WebGLRenderingContext, type: GLenum, source: string) {
     // Create shader object
     var shader = gl.createShader(type);
     if (shader == null) {
@@ -95,28 +66,3 @@ function loadShader(gl, type, source) {
 
     return shader;
 }
-
-/**
- * Initialize and get the rendering for WebGL
- * @param canvas <cavnas> element
- * @param opt_debug flag to initialize the context for debugging
- * @return the rendering context for WebGL
- */
-export const getWebGLContext = (
-    canvas: HTMLCanvasElement,
-    opt_debug = true
-): WebGLRenderingContext => {
-    // Get the rendering context for WebGL
-    var gl = WebGLUtils.setupWebGL(canvas);
-    if (!gl) {
-        warn('Failed to create context');
-        throw Error('Failed to create context');
-    }
-
-    // if opt_debug is explicitly false, create the context for debugging
-    if (opt_debug) {
-        gl = WebGLDebugUtils.makeDebugContext(gl);
-    }
-
-    return gl;
-};

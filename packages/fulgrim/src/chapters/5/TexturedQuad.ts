@@ -1,29 +1,27 @@
-import { initShaders } from '../../sdk/lib/cuon-utils';
-import { Matrix4 } from '../../sdk/lib/cuon-matrix';
 import { vertex, fragmetn } from './shaders';
-import { background, createCanvas, setup, draw } from '../../sdk';
+import { background, canvas, setup, draw, shaders } from '../../sdk';
 
 import skyUrl from './resources/mascorpone.jpeg';
 import circleUrl from './resources/circle.gif';
+import { Matrix4 } from '../../sdk/lib/matrix';
 
 export const TexturedQuad = () => {
-    let program;
     let n;
     setup((state) => {
-        createCanvas(800, 600);
+        canvas(800, 600);
         background(255);
 
-        program = initShaders(state.gl, vertex, fragmetn);
-        n = initVertexBuffers(state.gl, program);
+        shaders(vertex, fragmetn);
+        n = initVertexBuffers(state.gl, state.program);
 
-        initTexture(state.gl, program, n);
+        initTexture(state.gl, state.program, n);
     });
 
     const ANGLE_STEP = 40.0;
     let currentAngle = 0.0;
     draw((state, time) => {
         currentAngle = (currentAngle + (ANGLE_STEP * time) / 1000.0) % 360;
-        rotate(state.gl, program, n, currentAngle);
+        rotate(state.gl, state.program, n, currentAngle);
     });
 };
 

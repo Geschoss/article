@@ -1,27 +1,25 @@
-import { initShaders } from '../../sdk/lib/cuon-utils';
-import { Matrix4 } from '../../sdk/lib/cuon-matrix';
 import { vertex, fragmetn } from './shaders';
-import { background, createCanvas, setup, draw } from '../../sdk';
+import { background, canvas, setup, draw, shaders } from '../../sdk';
+import { Matrix4 } from '../../sdk/lib/matrix';
 
 let Tx = 0.5;
 let ANGLE_STEP = 40.0;
 
 export const Triangle = () => {
-    let program;
     let n;
     setup((state) => {
-        createCanvas(800, 600);
+        canvas(800, 600);
         background();
+        shaders(vertex, fragmetn);
 
-        program = initShaders(state.gl, vertex, fragmetn);
-        n = initVertexBuffers(state.gl, program);
+        n = initVertexBuffers(state.gl, state.program);
     });
 
     let currentAngle = 0.0;
 
     draw((state, time) => {
         currentAngle = (currentAngle + (ANGLE_STEP * time) / 1000.0) % 360;
-        drawTriangle(state.gl, program, n, currentAngle);
+        drawTriangle(state.gl, state.program, n, currentAngle);
     });
 };
 

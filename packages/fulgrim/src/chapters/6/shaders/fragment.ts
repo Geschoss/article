@@ -1,8 +1,8 @@
-export const fragmetn = `
+export const fragmetn = `#version 300 es
 precision mediump float;
-uniform vec4 u_Color;
+out vec4 fragColor;
 
 void main() {
-    gl_FragColor = u_Color;
+    fragColor = vec4(1.0, 1.0, 1.0, 1.0);;
 }
 `;

@@ -17,7 +17,7 @@ export class Matrix4 {
             this.elements = d;
         } else {
             this.elements = new Float32Array([
-                1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1
+                1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
             ]);
         }
     }
@@ -39,14 +39,26 @@ export class Matrix4 {
  */
 function setIdentity() {
     var e = this.elements;
-    
-    e[0] = 1;   e[4] = 0;   e[8]  = 0;   e[12] = 0;
-    e[1] = 0;   e[5] = 1;   e[9]  = 0;   e[13] = 0;
-    e[2] = 0;   e[6] = 0;   e[10] = 1;   e[14] = 0;
-    e[3] = 0;   e[7] = 0;   e[11] = 0;   e[15] = 1;
-    
+
+    e[0] = 1;
+    e[4] = 0;
+    e[8] = 0;
+    e[12] = 0;
+    e[1] = 0;
+    e[5] = 1;
+    e[9] = 0;
+    e[13] = 0;
+    e[2] = 0;
+    e[6] = 0;
+    e[10] = 1;
+    e[14] = 0;
+    e[3] = 0;
+    e[7] = 0;
+    e[11] = 0;
+    e[15] = 1;
+
     return this;
-};
+}
 
 /**
  * Set the matrix for rotation.
@@ -118,10 +130,22 @@ function setRotate(angle: number, x: Toggle, y: Toggle, z: Toggle) {
         if (z < 0) {
             sin = -sin;
         }
-        elements[0] = cos;  elements[4] = -sin; elements[8] = 0;    elements[12] = 0;
-        elements[1] = sin;  elements[5] = cos;  elements[9] = 0;    elements[13] = 0;
-        elements[2] = 0;    elements[6] = 0;    elements[10] = 1;   elements[14] = 0;
-        elements[3] = 0;    elements[7] = 0;    elements[11] = 0;   elements[15] = 1;
+        elements[0] = cos;
+        elements[4] = -sin;
+        elements[8] = 0;
+        elements[12] = 0;
+        elements[1] = sin;
+        elements[5] = cos;
+        elements[9] = 0;
+        elements[13] = 0;
+        elements[2] = 0;
+        elements[6] = 0;
+        elements[10] = 1;
+        elements[14] = 0;
+        elements[3] = 0;
+        elements[7] = 0;
+        elements[11] = 0;
+        elements[15] = 1;
     } else {
         // Rotation around another axis
         len = Math.sqrt(x * x + y * y + z * z);
@@ -170,14 +194,14 @@ function setRotate(angle: number, x: Toggle, y: Toggle, z: Toggle) {
  * @param z The Z value of a translation.
  * @return this
  */
- function translate(x: number, y: number, z: number) {
+function translate(x: number, y: number, z: number) {
     var e = this.elements;
-    e[12] += e[0] * x + e[4] * y + e[8]  * z;
-    e[13] += e[1] * x + e[5] * y + e[9]  * z;
+    e[12] += e[0] * x + e[4] * y + e[8] * z;
+    e[13] += e[1] * x + e[5] * y + e[9] * z;
     e[14] += e[2] * x + e[6] * y + e[10] * z;
     e[15] += e[3] * x + e[7] * y + e[11] * z;
     return this;
-};
+}
 
 /**
  * Set the matrix for translation.
@@ -186,14 +210,26 @@ function setRotate(angle: number, x: Toggle, y: Toggle, z: Toggle) {
  * @param z The Z value of a translation.
  * @return this
  */
- function setTranslate(x: number, y: number, z: number) {
+function setTranslate(x: number, y: number, z: number) {
     var e = this.elements;
-    e[0] = 1;  e[4] = 0;  e[8]  = 0;  e[12] = x;
-    e[1] = 0;  e[5] = 1;  e[9]  = 0;  e[13] = y;
-    e[2] = 0;  e[6] = 0;  e[10] = 1;  e[14] = z;
-    e[3] = 0;  e[7] = 0;  e[11] = 0;  e[15] = 1;
+    e[0] = 1;
+    e[4] = 0;
+    e[8] = 0;
+    e[12] = x;
+    e[1] = 0;
+    e[5] = 1;
+    e[9] = 0;
+    e[13] = y;
+    e[2] = 0;
+    e[6] = 0;
+    e[10] = 1;
+    e[14] = z;
+    e[3] = 0;
+    e[7] = 0;
+    e[11] = 0;
+    e[15] = 1;
     return this;
-};
+}
 
 /**
  * Multiply the matrix for rotation from the right.
@@ -204,41 +240,44 @@ function setRotate(angle: number, x: Toggle, y: Toggle, z: Toggle) {
  * @param z The Z coordinate of vector of rotation axis.
  * @return this
  */
- function rotate(angle: number, x: Toggle, y: Toggle, z: Toggle) {
+function rotate(angle: number, x: Toggle, y: Toggle, z: Toggle) {
     return this.concat(new Matrix4().setRotate(angle, x, y, z));
-};
+}
 
 /**
  * Multiply the matrix from the right.
  * @param other The multiply matrix
  * @return this
  */
- function concat(other: Matrix4) {
+function concat(other: Matrix4) {
     var i, e, a, b, ai0, ai1, ai2, ai3;
-    
+
     // Calculate e = a * b
     e = this.elements;
     a = this.elements;
     b = other.elements;
-    
+
     // If e equals b, copy b to temporary matrix.
     if (e === b) {
-      b = new Float32Array(16);
-      for (i = 0; i < 16; ++i) {
-        b[i] = e[i];
-      }
+        b = new Float32Array(16);
+        for (i = 0; i < 16; ++i) {
+            b[i] = e[i];
+        }
     }
-    
+
     for (i = 0; i < 4; i++) {
-      ai0=a[i];  ai1=a[i+4];  ai2=a[i+8];  ai3=a[i+12];
-      e[i]    = ai0 * b[0]  + ai1 * b[1]  + ai2 * b[2]  + ai3 * b[3];
-      e[i+4]  = ai0 * b[4]  + ai1 * b[5]  + ai2 * b[6]  + ai3 * b[7];
-      e[i+8]  = ai0 * b[8]  + ai1 * b[9]  + ai2 * b[10] + ai3 * b[11];
-      e[i+12] = ai0 * b[12] + ai1 * b[13] + ai2 * b[14] + ai3 * b[15];
+        ai0 = a[i];
+        ai1 = a[i + 4];
+        ai2 = a[i + 8];
+        ai3 = a[i + 12];
+        e[i] = ai0 * b[0] + ai1 * b[1] + ai2 * b[2] + ai3 * b[3];
+        e[i + 4] = ai0 * b[4] + ai1 * b[5] + ai2 * b[6] + ai3 * b[7];
+        e[i + 8] = ai0 * b[8] + ai1 * b[9] + ai2 * b[10] + ai3 * b[11];
+        e[i + 12] = ai0 * b[12] + ai1 * b[13] + ai2 * b[14] + ai3 * b[15];
     }
-    
+
     return this;
-};
+}
 
 /**
  * Set the matrix for scaling.
@@ -249,25 +288,45 @@ function setRotate(angle: number, x: Toggle, y: Toggle, z: Toggle) {
  */
 function setScale(x: number, y: number, z: number) {
     var e = this.elements;
-    e[0] = x;  e[4] = 0;  e[8]  = 0;  e[12] = 0;
-    e[1] = 0;  e[5] = y;  e[9]  = 0;  e[13] = 0;
-    e[2] = 0;  e[6] = 0;  e[10] = z;  e[14] = 0;
-    e[3] = 0;  e[7] = 0;  e[11] = 0;  e[15] = 1;
+    e[0] = x;
+    e[4] = 0;
+    e[8] = 0;
+    e[12] = 0;
+    e[1] = 0;
+    e[5] = y;
+    e[9] = 0;
+    e[13] = 0;
+    e[2] = 0;
+    e[6] = 0;
+    e[10] = z;
+    e[14] = 0;
+    e[3] = 0;
+    e[7] = 0;
+    e[11] = 0;
+    e[15] = 1;
     return this;
-};
-  
-  /**
-   * Multiply the matrix for scaling from the right.
-   * @param x The scale factor along the X axis
-   * @param y The scale factor along the Y axis
-   * @param z The scale factor along the Z axis
-   * @return this
-   */
+}
+
+/**
+ * Multiply the matrix for scaling from the right.
+ * @param x The scale factor along the X axis
+ * @param y The scale factor along the Y axis
+ * @param z The scale factor along the Z axis
+ * @return this
+ */
 function scale(x: number, y: number, z: number) {
     var e = this.elements;
-    e[0] *= x;  e[4] *= y;  e[8]  *= z;
-    e[1] *= x;  e[5] *= y;  e[9]  *= z;
-    e[2] *= x;  e[6] *= y;  e[10] *= z;
-    e[3] *= x;  e[7] *= y;  e[11] *= z;
+    e[0] *= x;
+    e[4] *= y;
+    e[8] *= z;
+    e[1] *= x;
+    e[5] *= y;
+    e[9] *= z;
+    e[2] *= x;
+    e[6] *= y;
+    e[10] *= z;
+    e[3] *= x;
+    e[7] *= y;
+    e[11] *= z;
     return this;
-};
+}
