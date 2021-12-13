@@ -6,7 +6,7 @@ import { Shaders } from './chapters/6';
 import { Starfield } from './coding_challenge/startgield';
 
 const main = () => {
-    Starfield();
+    Shaders();
 };
 
 document.addEventListener('DOMContentLoaded', main);
