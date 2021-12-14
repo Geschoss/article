@@ -3,8 +3,9 @@ export const createStore = () => {
     let gl: WebGLRenderingContext;
     let canvas: HTMLCanvasElement;
     let program: WebGLProgram;
-    let points: number[] = [];
     let lines: number[] = [];
+    let points: number[] = [];
+    let triangles: number[] = [];
 
     return {
         init(props) {
@@ -35,6 +36,9 @@ export const createStore = () => {
         },
         set lines(value) {
             lines = value;
+        },
+        get triangles() {
+            return triangles;
         },
     };
 };

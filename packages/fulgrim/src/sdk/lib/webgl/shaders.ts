@@ -46,7 +46,7 @@ function loadShader(gl: WebGLRenderingContext, type: GLenum, source: string) {
     var shader = gl.createShader(type);
     if (shader == null) {
         warn('unable to create shader');
-        return null;
+        throw new Error('unable to create shader');
     }
 
     // Set the shader program
@@ -59,9 +59,9 @@ function loadShader(gl: WebGLRenderingContext, type: GLenum, source: string) {
     var compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
     if (!compiled) {
         var error = gl.getShaderInfoLog(shader);
-        warn('Failed to compile shader: ' + error);
         gl.deleteShader(shader);
-        return null;
+        warn('Failed to compile shader: ' + error);
+        throw new Error('Failed to compile shader: ' + error);
     }
 
     return shader;

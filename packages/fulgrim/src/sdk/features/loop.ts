@@ -1,4 +1,4 @@
-import { drawLines, drawPoints } from '../entities';
+import { drawLines, drawPoints, drawTriangles } from '../entities';
 import { store } from './state';
 
 export const setup = (cb: (s: typeof store) => void) => {
@@ -9,7 +9,7 @@ export const draw = (cb: (s: typeof store, time: number) => void) => {
     let start = 0;
     const tick = () => {
         requestAnimationFrame((time) => {
-            const { gl, points, lines } = store;
+            const { gl, points, lines, triangles } = store;
 
             gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -22,6 +22,11 @@ export const draw = (cb: (s: typeof store, time: number) => void) => {
             if (lines.length > 0) {
                 drawLines();
             }
+
+            if (triangles.length > 0) {
+                drawTriangles();
+            }
+
             start = time;
             tick();
         });
