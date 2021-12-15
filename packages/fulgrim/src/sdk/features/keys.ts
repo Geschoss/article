@@ -1,21 +1,29 @@
 const createSdk = () => {
-    let subs = [];
+    let config = {};
+
     let that = {
-        add(sub) {
-            subs.push(sub);
+        addConf(conf) {
+            config = {
+                ...config,
+                ...conf,
+            };
         },
     };
 
     document.onkeydown = function (ev) {
-        subs.forEach((cb) => {
-            cb(ev.keyCode);
-        });
+        let { keyCode } = ev;
+
+        let cb = config[keyCode];
+
+        if (cb) {
+            cb();
+        }
     };
     return that;
 };
 
 const sdk = createSdk();
 
-export const keydown = (cb) => {
-    sdk.add(cb);
+export const keydown = (conf) => {
+    sdk.addConf(conf);
 };

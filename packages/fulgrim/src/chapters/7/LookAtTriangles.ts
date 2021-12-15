@@ -7,11 +7,13 @@ export const vertex = `#version 300 es
 in vec4 a_position;
 in vec4 a_color;
 uniform mat4 u_modelMatrix;
+uniform mat4 u_viewMatrix;
+uniform mat4 u_projMatrix;
 
 out vec4 o_color;
 
 void main() {
-    gl_Position = u_modelMatrix * a_position;
+    gl_Position = u_projMatrix * u_viewMatrix * u_modelMatrix * a_position;
     o_color = a_color;
 }
 `;
@@ -27,113 +29,89 @@ void main() {
 `;
 
 export const LookAtTriangles = () => {
+    let viewMatrix = new Matrix4();
+    let projMatrix = new Matrix4();
+    let modelMatrix = new Matrix4();
+    
+    let g_eyeX = 0.0, // Eye position
+        g_eyeY = 0.0,
+        g_eyeZ = 5.0; 
+    
+    let step = 0.02
+
+    let trees = [
+        // Three triangles on the right side
+        0.75,  1.0,  -4.0,  0.4,  1.0,  0.4, // The back green one
+        0.25, -1.0,  -4.0,  0.4,  1.0,  0.4,
+        1.25, -1.0,  -4.0,  1.0,  0.4,  0.4, 
+
+        0.75,  1.0,  -2.0,  1.0,  1.0,  0.4, // The middle yellow one
+        0.25, -1.0,  -2.0,  1.0,  1.0,  0.4,
+        1.25, -1.0,  -2.0,  1.0,  0.4,  0.4, 
+
+        0.75,  1.0,   0.0,  0.4,  0.4,  1.0,  // The front blue one 
+        0.25, -1.0,   0.0,  0.4,  0.4,  1.0,
+        1.25, -1.0,   0.0,  1.0,  0.4,  0.4, 
+
+        // Three triangles on the left side
+        -0.75,  1.0,  -4.0,  0.4,  1.0,  0.4, // The back green one
+        -1.25, -1.0,  -4.0,  0.4,  1.0,  0.4,
+        -0.25, -1.0,  -4.0,  1.0,  0.4,  0.4, 
+
+        -0.75,  1.0,  -2.0,  1.0,  1.0,  0.4, // The middle yellow one
+        -1.25, -1.0,  -2.0,  1.0,  1.0,  0.4,
+        -0.25, -1.0,  -2.0,  1.0,  0.4,  0.4, 
+
+        -0.75,  1.0,   0.0,  0.4,  0.4,  1.0,  // The front blue one 
+        -1.25, -1.0,   0.0,  0.4,  0.4,  1.0,
+        -0.25, -1.0,   0.0,  1.0,  0.4,  0.4,
+    ];
     setup((state) => {
         canvas(800, 800);
         background();
 
         shaders(vertex, fragment);
 
-        triangles([
-            0.0,
-            0.5,
-            -0.4,
-            0.4,
-            1.0,
-            0.4, // The back green one
-            -0.5,
-            -0.5,
-            -0.4,
-            0.4,
-            1.0,
-            0.4,
-            0.5,
-            -0.5,
-            -0.4,
-            1.0,
-            0.4,
-            0.4,
-        ]);
-
-        triangles([
-            0.5,
-            0.4,
-            -0.2,
-            1.0,
-            0.4,
-            0.4, // The middle yellow one
-            -0.5,
-            0.4,
-            -0.2,
-            1.0,
-            1.0,
-            0.4,
-            0.0,
-            -0.6,
-            -0.2,
-            1.0,
-            1.0,
-            0.4,
-        ]);
-
-        triangles([
-            0.0,
-            0.5,
-            0.0,
-            0.4,
-            0.4,
-            1.0, // The front blue one
-            -0.5,
-            -0.5,
-            0.0,
-            0.4,
-            0.4,
-            1.0,
-            0.5,
-            -0.5,
-            0.0,
-            1.0,
-            0.4,
-            0.4,
-        ]);
+        triangles(trees);
     });
 
-    // Set the matrix to be used for to set the camera view
-    let modelMatrix = new Matrix4();
-
-    let g_near = 0.0;
-    let g_far = 0.5;
-    keydown((key) => {
-        switch (key) {
-            case 39:
-                g_near += 0.1;
-                break;
-            case 37:
-                g_near -= 0.1;
-                break;
-            case 38:
-                g_far += 0.1;
-                break;
-            case 40:
-                g_far -= 0.1;
-                break;
-        }
+    keydown({
+        39: () => (g_eyeX += 0.1),
+        37: () => (g_eyeX -= 0.1),
     });
 
+    
     draw((state) => {
-        modelMatrix.setOrtho(-1, 1, -1, 1, g_near, g_far);
+        g_eyeZ = g_eyeZ - step; 
+        if (g_eyeZ < - 2 || g_eyeZ > 5) {
+            step = step * -(1)
+        }
+        
+        viewMatrix.setTranslate(0, 0, 0);
+        projMatrix.setPerspective(30, state.width/state.height, 1, 100);
+        modelMatrix.setLookAt(g_eyeX, g_eyeY, g_eyeZ, 0, 0, -100, 0, 1, 0);
 
-        var u_modelMatrix = state.gl.getUniformLocation(
+        let u_modelMatrix = state.gl.getUniformLocation(
             state.program,
             'u_modelMatrix'
         );
 
-        // Set the view matrix
+        let u_projMatrix = state.gl.getUniformLocation(
+            state.program,
+            'u_projMatrix'
+        );
+
+        let u_viewMatrix = state.gl.getUniformLocation(
+            state.program,
+            'u_viewMatrix'
+        );
+
+        state.gl.uniformMatrix4fv(u_viewMatrix, false, viewMatrix.elements);
+        state.gl.uniformMatrix4fv(u_projMatrix, false, projMatrix.elements);
         state.gl.uniformMatrix4fv(u_modelMatrix, false, modelMatrix.elements);
 
-        // Clear <canvas>
         state.gl.clear(state.gl.COLOR_BUFFER_BIT);
 
-        // Draw the rectangle
-        state.gl.drawArrays(state.gl.TRIANGLES, 0, 9);
+        state.gl.drawArrays(state.gl.TRIANGLES, 0, trees.length/6);
     });
 };
