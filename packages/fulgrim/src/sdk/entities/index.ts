@@ -3,3 +3,4 @@ export * from './line';
 export * from './background';
 export * from './canvas';
 export * from './triangles';
+export * from './cube';

@@ -7,9 +7,10 @@ import { Triangle } from './chapters/4/main';
 import { TexturedQuad } from './chapters/5/TexturedQuad';
 import { Shaders } from './chapters/6';
 import { LookAtTriangles } from './chapters/7/LookAtTriangles';
+import { HelloCude } from './chapters/7/HelloCube';
 
 const main = () => {
-    LookAtTriangles();
+    HelloCude();
 };
 
 document.addEventListener('DOMContentLoaded', main);

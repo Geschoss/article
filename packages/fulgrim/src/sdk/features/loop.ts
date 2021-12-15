@@ -1,4 +1,4 @@
-import { drawLines, drawPoints, drawTriangles } from '../entities';
+import { drawCube, drawLines, drawPoints, drawTriangles } from '../entities';
 import { store } from './state';
 
 export const setup = (cb: (s: typeof store) => void) => {
@@ -26,6 +26,8 @@ export const draw = (cb: (s: typeof store, time: number) => void) => {
             if (triangles.length > 0) {
                 drawTriangles();
             }
+
+            drawCube();
 
             start = time;
             tick();

@@ -22,8 +22,10 @@ export class Matrix4 {
         }
     }
 
+    set = set;
     scale = scale;
     concat = concat;
+    lookAt = lookAt;
     rotate = rotate;
     multiply = concat;
     setScale = setScale;
@@ -253,7 +255,7 @@ function rotate(angle: number, x: Toggle, y: Toggle, z: Toggle) {
  * @param other The multiply matrix
  * @return this
  */
-function concat(other: Matrix4) {
+function concat(other: Matrix4): Matrix4 {
     var i, e, a, b, ai0, ai1, ai2, ai3;
 
     // Calculate e = a * b
@@ -473,7 +475,7 @@ function setPerspective(
     aspect: number,
     near: number,
     far: number
-) {
+): Matrix4 {
     var e, rd, s, ct;
 
     if (near === far || aspect === 0) {
@@ -530,4 +532,59 @@ function setPerspective(
  */
 function perspective(fovy: number, aspect: number, near: number, far: number) {
     return this.concat(new Matrix4().setPerspective(fovy, aspect, near, far));
+}
+
+/**
+ * Copy matrix.
+ * @param src source matrix
+ * @return this
+ */
+function set(src: Matrix4) {
+    var i, s, d;
+
+    s = src.elements;
+    d = this.elements;
+
+    if (s === d) {
+        return;
+    }
+
+    for (i = 0; i < 16; ++i) {
+        d[i] = s[i];
+    }
+
+    return this;
+}
+
+/**
+ * Multiply the viewing matrix from the right.
+ * @param eyeX, eyeY, eyeZ The position of the eye point.
+ * @param centerX, centerY, centerZ The position of the reference point.
+ * @param upX, upY, upZ The direction of the up vector.
+ * @return this
+ */
+function lookAt(
+    eyeX: number,
+    eyeY: number,
+    eyeZ: number,
+    centerX: number,
+    centerY: number,
+    centerZ: number,
+    upX: number,
+    upY: number,
+    upZ: number
+): Matrix4 {
+    return this.concat(
+        new Matrix4().setLookAt(
+            eyeX,
+            eyeY,
+            eyeZ,
+            centerX,
+            centerY,
+            centerZ,
+            upX,
+            upY,
+            upZ
+        )
+    );
 }
