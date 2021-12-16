@@ -51,7 +51,7 @@ export const HelloCude = () => {
         4, 7, 6,   4, 6, 5     // back
     ];
 
-    setup((state) => {
+    setup(() => {
         canvas(800, 800);
         background();
 
