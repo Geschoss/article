@@ -1,7 +1,9 @@
 import { store } from '../features/state';
 
+let lines: number[] = [];
+
 export const line = (v0: number, v1: number, v2: number, v3: number) => {
-    const { lines } = store;
+    // const { lines } = store;
 
     lines.push(v0);
     lines.push(v1);
@@ -10,10 +12,13 @@ export const line = (v0: number, v1: number, v2: number, v3: number) => {
 };
 
 export const drawLines = () => {
-    const { gl, program, lines } = store;
+    const { gl, program } = store;
+    if (lines.length <= 0) {
+        return;
+    }
 
     const verticesLines = new Float32Array(lines);
-    store.lines = [];
+    lines = [];
 
     const n = verticesLines.length / 2;
 

@@ -1,18 +1,23 @@
 import { store } from '../features/state';
 
-export const point = (x: number, y: number, size = 1) => {
-    const { points } = store;
 
+let points: number[] = []
+
+export const point = (x: number, y: number, size = 1) => {
     points.push(x);
     points.push(y);
     points.push(size);
 };
 
 export const drawPoints = () => {
-    const { gl, program, points } = store;
+    if (points.length <= 0) {
+        return;
+    }
+
+    const { gl, program } = store;
 
     const verticesPoints = new Float32Array(points);
-    store.points = [];
+    points = [];
     
     const n = verticesPoints.length / 3;
 

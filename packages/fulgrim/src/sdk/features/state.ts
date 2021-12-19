@@ -3,8 +3,6 @@ export const createStore = () => {
     let gl: WebGLRenderingContext;
     let canvas: HTMLCanvasElement;
     let program: WebGLProgram;
-    let lines: number[] = [];
-    let points: number[] = [];
     let triangles: number[] = [];
 
     return {
@@ -24,18 +22,6 @@ export const createStore = () => {
         },
         get program() {
             return program;
-        },
-        get points() {
-            return points;
-        },
-        set points(value) {
-            points = value;
-        },
-        get lines() {
-            return lines;
-        },
-        set lines(value) {
-            lines = value;
         },
         get triangles() {
             return triangles;

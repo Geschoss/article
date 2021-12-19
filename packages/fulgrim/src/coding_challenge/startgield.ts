@@ -3,9 +3,11 @@ import { setup, draw, canvas, background, shaders, line } from '../sdk';
 
 export const vertex = `#version 300 es
 in vec4 a_position;
+in float a_size;
 
 void main() {
     gl_Position = a_position;
+    gl_PointSize = a_size;
 }
 `;
 
@@ -14,7 +16,7 @@ precision mediump float;
 out vec4 fragColor;
 
 void main() {
-    fragColor = vec4(1.0, 0.0, 0.0, 1.0);;
+    fragColor = vec4(1.0, 1.0, 1.0, 1.0);;
 }
 `;
 
@@ -60,12 +62,12 @@ class Start {
     }
 }
 
-let stars = range(0, 300);
+let stars = range(0, 500);
 
 export const Starfield = () => {
     setup((state) => {
-        canvas(800, 800);
-        background(255);
+        canvas(600, 600);
+        background();
         shaders(vertex, fragmetn);
 
         stars = stars.map(() => new Start(state.width, state.height));

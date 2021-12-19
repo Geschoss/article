@@ -10,7 +10,7 @@ import { LookAtTriangles } from './chapters/7/LookAtTriangles';
 import { HelloCude } from './chapters/7/HelloCube';
 
 const main = () => {
-    HelloCude();
+    Starfield();
 };
 
 document.addEventListener('DOMContentLoaded', main);
