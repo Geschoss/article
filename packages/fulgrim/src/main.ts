@@ -8,9 +8,10 @@ import { TexturedQuad } from './chapters/5/TexturedQuad';
 import { Shaders } from './chapters/6';
 import { LookAtTriangles } from './chapters/7/LookAtTriangles';
 import { HelloCude } from './chapters/7/HelloCube';
+import { ColoredCude } from './chapters/7/ColoredCube';
 
 const main = () => {
-    Starfield();
+    ColoredCude();
 };
 
 document.addEventListener('DOMContentLoaded', main);

@@ -24,6 +24,6 @@ const createSdk = () => {
 
 const sdk = createSdk();
 
-export const keydown = (conf) => {
+export const keydown = (conf: Record<number, () => void>) => {
     sdk.addConf(conf);
 };

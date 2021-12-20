@@ -1,5 +1,5 @@
 import { setup, draw, canvas, background, shaders } from '../../sdk';
-import { cube, triangles } from '../../sdk/entities';
+import { cube } from '../../sdk/entities';
 import { keydown } from '../../sdk/features';
 import { Matrix4 } from '../../sdk/lib/matrix';
 

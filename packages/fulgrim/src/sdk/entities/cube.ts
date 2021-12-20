@@ -2,45 +2,36 @@ import { store } from '../features';
 
 let colors = [];
 let indices = [];
+let vertices = [];
 
-export function cube(color, indice) {
+export function cube(vertic, color, indice) {
     colors.push(...color);
     indices.push(...indice);
+    vertices.push(...vertic);
 }
 
 export function drawCube() {
     if (indices.length === 0) {
         return;
     }
-    
+
     const { gl, program } = store;
 
-    var verticesColors = new Float32Array(colors);
-    var verticesIndices = new Uint8Array(indices);
+    let colorArray = new Float32Array(colors);
+    let verticesArray = new Float32Array(vertices);
+    
+    initArrayBuffer(gl, program,  verticesArray, 3, gl.FLOAT, 'a_position');
+    initArrayBuffer(gl, program, colorArray, 3, gl.FLOAT, 'a_color'); 
+}
 
-    // Create a buffer object
-    var vertexColorBuffer = gl.createBuffer();
-    var indexBuffer = gl.createBuffer();
+function initArrayBuffer(gl, program, data, num, type, attribute) {
+    let buffer = gl.createBuffer();
 
-    // Write the vertex coordinates and color to the buffer object
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, verticesColors, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
 
-    var FSIZE = verticesColors.BYTES_PER_ELEMENT;
-    // Assign the buffer object to a_Position and enable the assignment
-    var a_Position = gl.getAttribLocation(program, 'a_position');
+    let a_attribute = gl.getAttribLocation(program, attribute);
 
-    gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, FSIZE * 6, 0);
-    gl.enableVertexAttribArray(a_Position);
-
-    // Assign the buffer object to a_Color and enable the assignment
-    var a_Color = gl.getAttribLocation(program, 'a_color');
-
-    gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 6, FSIZE * 3);
-    gl.enableVertexAttribArray(a_Color);
-
-    // Unbind the buffer object
-    // Write the indices to the buffer object
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, verticesIndices, gl.STATIC_DRAW);
+    gl.vertexAttribPointer(a_attribute, num, type, false, 0, 0);
+    gl.enableVertexAttribArray(a_attribute);
 }
