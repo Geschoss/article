@@ -62,11 +62,11 @@ class Start {
     }
 }
 
-let stars = range(0, 500);
+let stars = range(0, 100);
 
 export const Starfield = () => {
     setup((state) => {
-        canvas(600, 600);
+        canvas(800, 800);
         background();
         shaders(vertex, fragmetn);
 

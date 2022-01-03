@@ -11,7 +11,7 @@ import { HelloCude } from './chapters/7/HelloCube';
 import { ColoredCude } from './chapters/7/ColoredCube';
 
 const main = () => {
-    ColoredCude();
+    Starfield();
 };
 
 document.addEventListener('DOMContentLoaded', main);
