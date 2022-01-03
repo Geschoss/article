@@ -1,0 +1,3 @@
+curl -X POST -H "Content-Type: application/json" \
+    -d '{"name": "linuxize", "age": 40 }' \
+    http://localhost:8000/person
