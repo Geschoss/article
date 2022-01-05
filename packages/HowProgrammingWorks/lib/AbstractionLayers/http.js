@@ -1,27 +1,8 @@
 'use strict';
 
 const http = require('http');
-const types = {
-    object: JSON.stringify,
-    string: (s) => s,
-    number: (n) => n.toString(),
-    boolean: (n) => n.toString(),
-    undefined: () => 'not found',
-};
 
-const serialize = (data) => {
-    const type = typeof data;
-    const serializer = types[type];
-    if (!serializer) {
-        console.error('ERROR! Serializer not found.');
-
-        return 'not found';
-    }
-
-    return serializer(data);
-};
-
-const makeRoutesMap = (routes) =>
+const routesByMethodUrl = (routes) =>
     routes.reduce((acc, route) => {
         const { url, method } = route;
 
@@ -42,7 +23,7 @@ const parseCookies = (cookieStr = '') =>
     }, {});
 
 const start = ({ port, routes, logger, cacher }) => {
-    const routesMap = makeRoutesMap(routes);
+    const routesMap = routesByMethodUrl(routes);
 
     const server = http.createServer((req, res) => {
         const routeKey = `${req.method}:${req.url}`;

@@ -2,13 +2,28 @@ const { fileStorage } = require('../shared/storages.js');
 
 const personStorage = fileStorage('./person.json');
 
-const calculateAgeByBirth = (birthStr) => {
+const ageByBirth = (birthStr) => {
     const birth = new Date(birthStr);
     const difference = new Date() - birth;
     return Math.floor(difference / 31536000000);
 };
 
-const getPerson = ({ res, req, cacher }) => {
+const createPerson = (storage) => {
+    return {
+        get(callback) {
+            storage.read(({ name, birth }) => {
+                callback({ name, age: ageByBirth(birth) });
+            });
+        },
+        save(person, callback) {
+            // validate person
+            storage.write(person, callback);
+        }
+    };
+};
+const Person = createPerson(personStorage);
+
+const getPerson = ({ res, req, cacher, logger }) => {
     const url = req.url;
     if (cacher.has(url)) {
         const sobj = cacher.get(url);
@@ -18,14 +33,11 @@ const getPerson = ({ res, req, cacher }) => {
         return;
     }
 
-    // Some business logic
-    personStorage.read(({ name, birth }) => {
-        const person = {
-            name,
-            age: calculateAgeByBirth(birth),
-        };
+    Person.get((person) => {
+        logger.log(person);
 
         const personStr = JSON.stringify(person);
+        
         cacher.set(req.url, personStr);
 
         // HTTP reply
@@ -48,7 +60,8 @@ const postPerson = ({ res, req, cacher, logger }) => {
         data = JSON.stringify(obj);
 
         cacher.set(req.url, data);
-        personStorage.write(data, () => {
+
+        Person.save(data, () => {
             res.writeHead(200);
             res.end('File saved');
         });

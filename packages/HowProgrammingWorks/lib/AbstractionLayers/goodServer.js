@@ -46,11 +46,9 @@ const cacher = {
         return cacher.cache.has(key);
     },
     get(key) {
-        console.log(`get cache: ${key}`);
         return cacher.cache.get(key);
     },
     set(key, value) {
-        console.log(`set cache: ${key}`);
         return cacher.cache.set(key, value);
     },
 };
