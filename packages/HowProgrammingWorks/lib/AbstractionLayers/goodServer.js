@@ -1,38 +1,48 @@
 'use strict';
 const http = require('./http');
 
-const {
-    getPerson,
-    postPerson,
-} = require('./entity/person.js');
+const { Person } = require('./entity/person.js');
 
 const port = 8000;
 const routes = [
     {
-        url: '/',
-        method: 'GET',
-        handler: ({ res, req, cookies }) => {
-            res.writeHead(200, {
-                'Set-Cookie': 'mycookie=test',
-                'Content-Type': 'text/html',
-            });
-            const ip = req.connection.remoteAddress;
-            res.end(
-                `<h1>Welcome</h1>Your IP: ${ip}<pre>\n${JSON.stringify(
-                    cookies
-                )}</pre>`
-            );
-        },
-    },
-    {
         url: '/person',
         method: 'GET',
-        handler: getPerson,
+        handler: ({ logger }) =>
+            Person.get()
+                .then((person) => {
+                    logger.log(`Geted from db`);
+                    logger.log({ person });
+
+                    return { person };
+                })
+                .catch((e) => {
+                    logger.log(`ERROR! ${e.message}`);
+
+                    return {
+                        error: 'Не удалось достать пользователя с базы!',
+                    };
+                }),
     },
     {
         url: '/person',
         method: 'POST',
-        handler: postPerson,
+        handler: ({ req, cacher }) => {
+            const body = [];
+            req.on('data', (chunk) => {
+                body.push(chunk);
+            }).on('end', () => {
+                let data = Buffer.concat(body).toString();
+
+                const person = JSON.parse(data);
+
+                Person.save(person).then((person) => {
+                    const personStr = JSON.stringify(person);
+
+                    cacher.set(req.url, personStr);
+                });
+            });
+        },
     },
 ];
 const logger = {

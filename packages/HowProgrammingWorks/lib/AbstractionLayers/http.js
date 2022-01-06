@@ -36,8 +36,38 @@ const start = ({ port, routes, logger, cacher }) => {
             res.end('Path not found');
             return;
         }
+        const url = req.url;
 
-        route.handler({ req, res, cookies, cacher, logger });
+        if (cacher.has(url)) {
+            const cache = cacher.get(url);
+
+            logger.log('Geted from cache!');
+            logger.log(cache);
+
+            res.writeHead(200);
+            res.end(cache);
+            return;
+        }
+
+        const result = route.handler({ req, res, cookies, cacher, logger });
+
+        if (result instanceof Promise) {
+            result
+                .then((response) => {
+                    const responseStr = JSON.stringify(response);
+
+                    cacher.set(req.url, responseStr);
+
+                    res.writeHead(200);
+                    res.end(responseStr);
+                })
+                .catch((e) => {
+                    logger.log('UNHANDLED ERROR!!');
+                    logger.log(e.message);
+                    res.writeHead(400);
+                    res.end('Some error');
+                });
+        }
     });
 
     server.on('request', (req) => {
