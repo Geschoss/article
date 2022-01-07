@@ -54,9 +54,9 @@ const start = ({ port, routes, logger, cacher }) => {
         if (result instanceof Promise) {
             result
                 .then((response) => {
-                    const responseStr = JSON.stringify(response);
+                    cacher.set(req.url, response);
 
-                    cacher.set(req.url, responseStr);
+                    const responseStr = JSON.stringify(response);
 
                     res.writeHead(200);
                     res.end(responseStr);

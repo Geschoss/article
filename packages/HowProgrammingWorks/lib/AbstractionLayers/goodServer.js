@@ -37,9 +37,7 @@ const routes = [
                 const person = JSON.parse(data);
 
                 Person.save(person).then((person) => {
-                    const personStr = JSON.stringify(person);
-
-                    cacher.set(req.url, personStr);
+                    cacher.set(req.url, person);
                 });
             });
         },
