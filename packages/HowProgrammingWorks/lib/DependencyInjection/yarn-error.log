@@ -1,0 +1,36 @@
+Arguments: 
+  /Users/kolomnikov/.nvm/versions/node/v14.18.2/bin/node /Users/kolomnikov/.node/corepack/yarn/1.22.15/bin/yarn.js
+
+PATH: 
+  /Users/kolomnikov/.nvm/versions/node/v14.18.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/kolomnikov/.nvm/versions/node/v14.18.2/bin
+
+Yarn version: 
+  1.22.15
+
+Node version: 
+  14.18.2
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: getaddrinfo ENOTFOUND npm.frontend.tutu.pro
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:71:26)
+
+npm manifest: 
+  {
+      "name": "diExample",
+      "private": true,
+      "version": "1.0.1",
+      "description": "Dependency Injection Example",
+      "license": "MIT",
+      "dependencies": {
+          "sandboxed-fs": "^0.3.2"
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
