@@ -1,7 +1,8 @@
 ({
     method: async () => {
         return {
-            test: 'test',
+            name: 'Anna',
+            age: 33,
         };
     },
 });

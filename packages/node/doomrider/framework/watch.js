@@ -29,6 +29,7 @@ class DirectoryWatcher extends EventEmitter {
 
     sendQueue() {
         if (!this.timer) return;
+
         clearTimeout(this.timer);
         this.timer = null;
         for (const [filePath, event] of this.queue) {
@@ -44,6 +45,7 @@ class DirectoryWatcher extends EventEmitter {
             const filePath = target
                 ? targetPath
                 : path.join(targetPath, fileName);
+
             fs.stat(filePath, (err, stats) => {
                 if (err) {
                     this.unwatch(filePath);
@@ -62,6 +64,7 @@ class DirectoryWatcher extends EventEmitter {
     watch(targetPath) {
         const watcher = this.watchers.get(targetPath);
         if (watcher) return;
+
         fs.readdir(targetPath, { withFileTypes: true }, (err, files) => {
             if (err) return;
             for (const file of files) {
@@ -77,6 +80,7 @@ class DirectoryWatcher extends EventEmitter {
     unwatch(path) {
         const watcher = this.watchers.get(path);
         if (!watcher) return;
+
         watcher.close();
         this.watchers.delete(path);
     }
