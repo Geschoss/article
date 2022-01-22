@@ -13,7 +13,7 @@ const displayName = createMemo(() => {
 });
 
 createEffect(() => {
-    console.log('My name is ', displayName());
+    console.log('My name is: ', displayName());
 });
 
 setShowFullName(false);
