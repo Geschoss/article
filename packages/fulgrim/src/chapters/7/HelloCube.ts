@@ -28,7 +28,7 @@ void main() {
 
 export const HelloCude = () => {
     let matrix = new Matrix4();
-
+    // prettier-ignor
     let colors = [
         // Vertex coordinates and color
         1.0,  1.0,  1.0,     1.0,  1.0,  1.0,  // v0 White
@@ -41,7 +41,7 @@ export const HelloCude = () => {
         -1.0, -1.0, -1.0,     0.0,  0.0,  0.0   // v7 Black
     ];
 
-      // Indices of the vertices
+    // prettier-ignor
     var indices = [
         0, 1, 2,   0, 2, 3,    // front
         0, 3, 4,   0, 4, 5,    // right
@@ -58,38 +58,40 @@ export const HelloCude = () => {
         shaders(vertex, fragment);
 
         cube(colors, indices);
-    });
 
-    let angle = 10;
+        let angle = 10;
 
-    keydown({
-        39: () => (angle += 10),
-        37: () => (angle -= 10),
-    });
+        keydown((keys) => ({
+            [keys.LEFT]: () => (angle += 10),
+            [keys.RIGHT]: () => (angle -= 10),
+        }));
 
-    draw((state) => {
-        angle += 1;
-        
-        matrix
-            .setPerspective(30, 1, 1, 100)
-            .lookAt(3, 3, 7, 0, 0, 0, 0, 1, 0)
-            .rotate(angle, 0, 1, 0)
+        draw((state) => {
+            angle += 1;
 
-        let u_matrix = state.gl.getUniformLocation(
-            state.program,
-            'u_matrix'
-        );
+            matrix
+                .setPerspective(30, 1, 1, 100)
+                .lookAt(3, 3, 7, 0, 0, 0, 0, 1, 0)
+                .rotate(angle, 0, 1, 0);
 
-        state.gl.uniformMatrix4fv(u_matrix, false, matrix.elements);
-        
-        state.gl.enable(state.gl.DEPTH_TEST);
-        state.gl.clear(state.gl.DEPTH_BUFFER_BIT | state.gl.COLOR_BUFFER_BIT);
+            let u_matrix = state.gl.getUniformLocation(
+                state.program,
+                'u_matrix'
+            );
 
-        state.gl.drawElements(
-            state.gl.TRIANGLES,
-            indices.length,
-            state.gl.UNSIGNED_BYTE,
-            0
-        );
+            state.gl.uniformMatrix4fv(u_matrix, false, matrix.elements);
+
+            state.gl.enable(state.gl.DEPTH_TEST);
+            state.gl.clear(
+                state.gl.DEPTH_BUFFER_BIT | state.gl.COLOR_BUFFER_BIT
+            );
+
+            state.gl.drawElements(
+                state.gl.TRIANGLES,
+                indices.length,
+                state.gl.UNSIGNED_BYTE,
+                0
+            );
+        });
     });
 };

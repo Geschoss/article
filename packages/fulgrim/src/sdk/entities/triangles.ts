@@ -1,16 +1,20 @@
 import { store } from '../features';
 
-export function triangles(coords) {
-    const { triangles } = store;
+const triangle = [];
 
-    triangles.push(...coords);
+export function triangles(coords) {
+    triangle.push(...coords);
 }
 
 export function drawTriangles() {
-    const { gl, program, triangles } = store;
+    if (triangles.length > 0) {
+        return;
+    }
 
-    var array = new Float32Array(triangles);
-    
+    const { gl, program } = store;
+
+    var array = new Float32Array(triangle);
+
     // Create a buffer object
     var vertexColorbuffer = gl.createBuffer();
 

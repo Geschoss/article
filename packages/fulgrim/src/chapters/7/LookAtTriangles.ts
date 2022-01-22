@@ -74,10 +74,10 @@ export const LookAtTriangles = () => {
         triangles(trees);
     });
 
-    keydown({
-        39: () => (g_eyeX += 0.1),
-        37: () => (g_eyeX -= 0.1),
-    });
+    keydown((keys) => ({
+        [keys.LEFT]: () => (angle += 10),
+        [keys.RIGHT]: () => (angle -= 10),
+    }));
 
     
     draw((state) => {

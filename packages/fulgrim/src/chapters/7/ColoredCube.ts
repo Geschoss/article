@@ -70,10 +70,10 @@ export const ColoredCude = () => {
 
     let angle = 10;
 
-    keydown({
-        39: () => (angle += 10),
-        37: () => (angle -= 10),
-    });
+    keydown((keys) => ({
+        [keys.LEFT]: () => (angle += 10),
+        [keys.RIGHT]: () => (angle -= 10),
+    }));
 
     draw((state) => {
         // angle += 1;

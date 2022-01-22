@@ -3,11 +3,20 @@ import { store } from '../features';
 let colors = [];
 let indices = [];
 let vertices = [];
+let normals = [];
 
-export function cube(vertic, color, indice) {
+export function cube(vertic, color, indice, normal) {
     colors.push(...color);
+    normals.push(...normal);
     indices.push(...indice);
     vertices.push(...vertic);
+
+    const { gl } = store;
+
+    let indicesArray = new Uint8Array(indices);
+    let indicesBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indicesArray, gl.STATIC_DRAW);
 }
 
 export function drawCube() {
@@ -18,10 +27,12 @@ export function drawCube() {
     const { gl, program } = store;
 
     let colorArray = new Float32Array(colors);
+    let normalsArray = new Float32Array(normals);
     let verticesArray = new Float32Array(vertices);
-    
-    initArrayBuffer(gl, program,  verticesArray, 3, gl.FLOAT, 'a_position');
-    initArrayBuffer(gl, program, colorArray, 3, gl.FLOAT, 'a_color'); 
+
+    initArrayBuffer(gl, program, colorArray, 3, gl.FLOAT, 'a_color');
+    initArrayBuffer(gl, program, normalsArray, 3, gl.FLOAT, 'a_normal');
+    initArrayBuffer(gl, program, verticesArray, 3, gl.FLOAT, 'a_position');
 }
 
 function initArrayBuffer(gl, program, data, num, type, attribute) {

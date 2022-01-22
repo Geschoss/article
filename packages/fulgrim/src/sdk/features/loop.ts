@@ -9,20 +9,16 @@ export const draw = (cb: (s: typeof store, time: number) => void) => {
     let start = 0;
     const tick = () => {
         requestAnimationFrame((time) => {
-            const { gl, triangles } = store;
+            const { gl } = store;
 
             gl.clear(gl.COLOR_BUFFER_BIT);
 
             cb(store, Math.floor(time - start));
 
-            
-            drawPoints();
-            drawLines();
             drawCube();
-
-            if (triangles.length > 0) {
-                drawTriangles();
-            }
+            drawLines();
+            drawPoints();
+            drawTriangles();
 
             start = time;
             tick();

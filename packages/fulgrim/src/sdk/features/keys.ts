@@ -12,6 +12,7 @@ const createSdk = () => {
 
     document.onkeydown = function (ev) {
         let { keyCode } = ev;
+        console.log(keyCode);
 
         let cb = config[keyCode];
 
@@ -24,6 +25,15 @@ const createSdk = () => {
 
 const sdk = createSdk();
 
-export const keydown = (conf: Record<number, () => void>) => {
-    sdk.addConf(conf);
+const KEYS_CODE = {
+    UP: 38,
+    DOWN: 40,
+    LEFT: 37,
+    RIGHT: 39,
+};
+
+type KEYS = typeof KEYS_CODE;
+
+export const keydown = (fn: (keys: KEYS) => Record<number, () => void>) => {
+    sdk.addConf(fn(KEYS_CODE));
 };
