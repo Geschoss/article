@@ -1,7 +1,7 @@
 ({
     method: async () => {
         return {
-            test: 'test',
+            orders: [1, 2, 3, 4],
         };
     },
 });
