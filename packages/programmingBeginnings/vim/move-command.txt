@@ -1,0 +1,46 @@
+### Movements command
+Movement					Command
+Scroll forward one screen			^F
+Scroll backward one screen			^B
+Scroll forward a half screen			^D
+Scroll backward a half screen			^U
+Scroll forward one line				^E
+Scroll backward one line			^Y
+Move cur. line to top of screen and scroll	z [Enter]
+Move cur. line to center of screen and scrol	z .
+Move cur. line to bottom of screen and scroll	z-
+Redraw the screen				^L
+Move to home -- the top line screen		H
+Move to middle line of screen			M
+Move to bottom line of screen			L
+Move to first char. of next line		[Enter]
+Move to first char. of next line 		+
+Move to first char. of previous line		-
+Move to first nonblank char. of cur. line	^
+Move to column n of cur. line 			[n] |
+Move to end of word				e
+Move to end of word(ignore punctuation)		E
+Move to beginning of cur. sentence		(
+Move to beginning of next sentence		)
+Move to beginning of cur. paragraph		{
+Move to beginning of next paragraph		}
+Move to beginning of cur. section		[[
+Move to beginning of next section		]]
+Search forward for pattern			/pattern [Enter]
+Search backward for pattern			?pattern [Enter]
+Repeat last search				n
+Repeat last search in opposite direction	N
+Repeat last search forward			/
+Repeat last search backward			?
+Move to next occurrence of x in cur. line	fx
+Move to prev. occurrence of x in cur. line	Fx
+Move to just before next occurrence of x in cur. line tx
+Move to just after prev occurrence of x in cur. line Tx
+Repeat prev. find command in same direction	;
+Repeat prev. find command in opposite direction	,
+Go to given line n				n G
+Go to end of file				G
+Return to prev mark of context			``
+Return to beg. of line containing prev mark	''
+Show current line				^G
+

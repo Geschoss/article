@@ -1,0 +1,75 @@
+### Example text
+You can moce text by deleting it and then,
+placing that deleted text elsewhere in the file.
+Like a "cut and place"
+each time you delete a text block.
+
+### Edit commands
+text object				Change		Delete		Copy(yank) 
+One word				cw			dw			yw	
+Two words,
+whitespace separated	2cW, c2W	2dW, d2W	2yW, y2W
+Three words back		3cb, c3b	3db, d3b	2yd, y3d
+One line				cc			dd			yy, Y
+To end of line			c$, C		d$, D		y$
+To begining of line		c0			d0			y0
+Single character		r			x, X		yl, yh
+Five characters			5s			5x			5yl
+
+
+### Movement
+Movement				Command
+<-...->					h, j, k, l 
+To first character
+of next line			+
+To first character
+of previous line		-
+To end of word			e, E
+Forward by word			w, W
+Backward by word		b, B
+To end of line			$
+To begigning of line	0
+To a particular line	5G
+
+### Other operations
+Operations				Command
+Place text from
+register				p, P
+Save edits, quit file	ZZ
+No saving of edits,
+quite file				:q!
+
+### Text creating, deletion and manipulation command
+Editing action											Command
+Insert text at curret position							i
+Insert text at beginning fo line						I
+Append text to end of line								A
+Open new line below cursor for new text					o
+Open new line above cursor for new text					O
+Put deleted text after cursor or below current line		p
+Put deleted text before cursor or above current line	P
+Replace the character under the cursor					r
+Overstrike existing characters with new text			R
+Delete the current character and enter insert mode		s
+Delete line and substitute text							S
+Delete the character under the cursor					x
+Delete the character in front of the cursor				X
+Join current and next line								J
+Toggle case												~
+Repeat last action										.
+Undo last chage											u
+Restore line to original state							U
+
+### More editting commands
+Change		Delete		Copy				From cursor to...
+cH			dH			yH					Top of screen
+cL			dL			yL					Bottom of screen
+c+			d+			y+					Next line
+c5|			d5|			y5|					Column 5 of current line
+2c)			2d)			2y)					Second sentence following
+c{			d{			y{					Previous paragraph
+c/pattern	d/pattern	y/pattern			Pattern
+cn			dn			yn					Next pattern
+cG			dG			yG					End of file
+c13G		d13G		y13G				Line number 13
+
