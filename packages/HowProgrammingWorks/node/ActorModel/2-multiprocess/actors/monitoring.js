@@ -1,0 +1,41 @@
+'use strict';
+
+const ActorSystem = require('../system.js');
+const https = require('https');
+
+const URL = 'https://www.google.com/';
+const INTERVAL = 2000;
+
+ActorSystem.register(class Monitoring {
+    constructor() {
+        console.log('Start actor: Monitoring');
+        this.prevSuccess = true;
+        this.timer = setInterval(() => {
+            this.attempt(URL)
+        }, INTERVAL);
+    }
+
+    attempt(url) {
+        console.log(`attempt ${url}`);
+        https.get(url, res => {
+            const success = res.statusCode === 200;
+            this.notify({ url, success, status: res.statusCode });
+        }).on('error', (error) => {
+            this.notify({ url, success: false, status: error.message });
+        });
+    }
+
+    notify({ url, success, status }) {
+        if (this.prevSuccess !== success) {
+            this.prevSuccess = success;
+            ActorSystem.send('Renderer', { url, success, status });
+        }
+    }
+
+    async message() { }
+
+    async exit() {
+        clearInterval(this.timer);
+        console.log('Stop actor: Monitoring');
+    }
+})
