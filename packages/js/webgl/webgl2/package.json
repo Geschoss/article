@@ -1,0 +1,13 @@
+{
+    "name": "webgl2",
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "vite": "^2.8.4",
+        "prettier": "^2.5.1"
+    },
+    "dependencies": {}
+}

@@ -94,7 +94,7 @@ export const LightedCude = () => {
             state.program,
             'u_lightColor'
         );
-        state.gl.uniform3f(u_lightColor, 1.0, 1.0, 1.0);
+        state.gl.uniform3f(u_lightColor, 1.0, 0.0, 0.0);
 
         let u_lightDirection = state.gl.getUniformLocation(
             state.program,
@@ -113,6 +113,7 @@ export const LightedCude = () => {
 
         draw(() => {
             matrix.rotate(angle, 0, 1, 0);
+            angle = 0;
 
             state.gl.uniformMatrix4fv(u_matrix, false, matrix.elements);
 
