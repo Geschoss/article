@@ -26,10 +26,12 @@ void main() {
 const fragmentShaderSource = `#version 300 es
 precision highp float;
 
+uniform vec4 u_color;
+
 out vec4 outColor;
 
 void main() {
-    outColor = vec4(1, 0, 0.5, 1);
+    outColor = u_color;
 }
 `;
 
@@ -49,7 +51,10 @@ let program = webgl.createProgram(
     vertexShader,
     fragmentShader
 );
-
+let colorLocation = gl.getUniformLocation(
+    program,
+    'u_color'
+);
 var resolutionUniformLocation = gl.getUniformLocation(
     program,
     'u_resolution'
@@ -61,48 +66,7 @@ let positionAttributeLocation = gl.getAttribLocation(
 );
 let positionBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-{
-    let degrees = 45;
-    let x = 100;
-    let y = 100;
-    let width = 100;
-    let heigth = 100;
-    let rot = (() => {
-        let rotation = degrees * (Math.PI / 180);
-        let cos = Math.cos(rotation);
-        let sin = Math.sin(rotation);
-        let halfW = width/2;
-        let halfH = heigth/2;
-        return (arr) => {
-            let result = [];
-            for (let i = 0; i < arr.length; i = i + 2) {
-                let xo = arr[i] - halfW - x;
-                let yo = arr[i + 1] - halfH - y;
-                let nx = cos * xo + sin * yo;
-                let ny = cos * yo - sin * xo;
-                result.push(nx + halfW + x);
-                result.push(ny + halfH + y);
-            }
-            return result;
-        };
-    })();
-    gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array(
-            // prettier-ignore
-            rot([
-              x, y,
-              x + width, y,
-              x, y + heigth,
 
-              x, y + heigth,
-              x + width, y + heigth,
-              x + width, y,
-            ])
-        ),
-        gl.STATIC_DRAW
-    );
-}
 let vao = gl.createVertexArray();
 gl.bindVertexArray(vao);
 gl.enableVertexAttribArray(positionAttributeLocation);
@@ -136,9 +100,72 @@ gl.uniform2f(
     gl.canvas.height
 );
 gl.bindVertexArray(vao);
-{
-    let primitiveType = gl.TRIANGLES;
-    let offset = 0;
-    let count = 6;
+for (var ii = 0; ii < 15; ++ii) {
+    // Setup a random rectangle
+    setRectangle(
+        gl,
+        randomInt(300),
+        randomInt(300),
+        randomInt(300),
+        randomInt(300),
+        randomInt(360)
+        );
+
+    // Set a random color.
+    gl.uniform4f(
+        colorLocation,
+        Math.random(),
+        Math.random(),
+        Math.random(),
+        1
+    );
+
+    // Draw the rectangle.
+    var primitiveType = gl.TRIANGLES;
+    var offset = 0;
+    var count = 6;
     gl.drawArrays(primitiveType, offset, count);
+}
+
+function randomInt(range) {
+    return Math.floor(Math.random() * range);
+}
+
+function setRectangle(gl, x, y, width, height, degrees) {
+    {
+        let rot = (() => {
+            let rotation = degrees * (Math.PI / 180);
+            let cos = Math.cos(rotation);
+            let sin = Math.sin(rotation);
+            let halfW = width / 2;
+            let halfH = height / 2;
+            return (arr) => {
+                let result = [];
+                for (let i = 0; i < arr.length; i = i + 2) {
+                    let xo = arr[i] - halfW - x;
+                    let yo = arr[i + 1] - halfH - y;
+                    let nx = cos * xo + sin * yo;
+                    let ny = cos * yo - sin * xo;
+                    result.push(nx + halfW + x);
+                    result.push(ny + halfH + y);
+                }
+                return result;
+            };
+        })();
+        gl.bufferData(
+            gl.ARRAY_BUFFER,
+            new Float32Array(
+                // prettier-ignore
+                rot([
+                x, y,
+                x + width, y,
+                x, y + height,
+                x, y + height,
+                x + width, y + height,
+                x + width, y,
+              ])
+            ),
+            gl.STATIC_DRAW
+        );
+    }
 }
