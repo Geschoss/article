@@ -1,2 +1,3 @@
-export * as webgl from './webgl';
+export { webgl } from './webgl';
 export * as webglUtils from './webglUtils';
+export { keydown } from './keydown';
