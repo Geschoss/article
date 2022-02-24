@@ -1,4 +1,4 @@
-import { webgl, webglUtils } from './common';
+import { webgl, webglUtils } from '../common';
 
 const vertexShaderSource = `#version 300 es
 in vec2 a_position;
@@ -29,7 +29,7 @@ void main() {
     outColor = u_color;
 }
 `;
-export const run = (gl) => {
+export const fundamentals = (gl) => {
   let vertexShader = webgl.createShader(
     gl,
     gl.VERTEX_SHADER,
