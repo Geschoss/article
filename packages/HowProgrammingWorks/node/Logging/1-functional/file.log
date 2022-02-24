@@ -1,0 +1,4 @@
+{"date":"2022-02-24T06:36:58.238Z","kind":"info","app":"app1","module":"module1","msg":"I have info for you"}
+{"date":"2022-02-24T06:36:58.238Z","kind":"warning","app":"app1","module":"module1","msg":"Hello there!"}
+{"date":"2022-02-24T06:36:58.238Z","kind":"error","app":"app1","module":"module1","msg":"World is not found"}
+{"date":"2022-02-24T06:36:58.238Z","kind":"debug","app":"app1","module":"module1","msg":"Bye!"}
