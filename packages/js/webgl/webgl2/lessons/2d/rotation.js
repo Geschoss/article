@@ -1,4 +1,4 @@
-import { webgl, webglUtils, keydown } from '../../common';
+import { webgl, webglUtils, keydown } from '../common';
 
 const vertexShaderSource = `#version 300 es
 in vec2 a_position;

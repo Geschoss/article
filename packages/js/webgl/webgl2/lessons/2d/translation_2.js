@@ -1,13 +1,23 @@
-import { webgl, webglUtils, keydown } from '../../common';
+import { webgl, webglUtils, keydown } from '../common';
 
 const vertexShaderSource = `#version 300 es
+// an attribute is an input (in) to a vertex shader.
+// It will receive data from a buffer
 in vec2 a_position;
 
+// Used to pass in the resolution of the canvas
 uniform vec2 u_resolution;
 
+
+// translation to add to postion
+uniform vec2 u_translation;
+
 void main() {
+  // Add in the translation
+  vec2 position = a_position + u_translation;
+
   // convert the postion from pixels to 0.0 to 1.0
-  vec2 zeroToOne = a_position / u_resolution;
+  vec2 zeroToOne = position / u_resolution;
 
   // convert from 0->1 to 0->2
   vec2 zeroToTwo = zeroToOne * 2.0;
@@ -31,11 +41,9 @@ void main() {
 }
 `;
 
-export const translation_1 = (gl) => {
+export const translation_2 = (gl) => {
   let degrees = 0;
   let translation = [100, 100];
-  let width = 50;
-  let height = 300;
   let color = [Math.random(), Math.random(), Math.random(), 1]
 
   webgl.init(gl);
@@ -50,6 +58,10 @@ export const translation_1 = (gl) => {
   var resolutionUniformLocation = gl.getUniformLocation(
     program,
     'u_resolution'
+  );
+  var translationUniformLocation = gl.getUniformLocation(
+    program,
+    'u_translation'
   );
 
   let positionAttributeLocation = gl.getAttribLocation(
@@ -120,79 +132,48 @@ export const translation_1 = (gl) => {
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height)
     // Update the position buffer with rectangle positions
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    setRectangle(gl, translation[0], translation[1], width, height, degrees);
+    setGeometry(gl);
+    // Aet the translation
+    gl.uniform2fv(translationUniformLocation, translation)
     // Set a the color
     gl.uniform4fv(colorLocation, color);
     // Draw the rectangle
     {
       let primitiveType = gl.TRIANGLES;
       let offset = 0;
-      let count = 24;
+      let count = 18;
       gl.drawArrays(primitiveType, offset, count);
     }
   }
 };
+// Fill the current ARRAY_BUFFER buffer
+// with the values that define a letter 'F'.
+function setGeometry(gl) {
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array([
+      // left column
+      0, 0,
+      30, 0,
+      0, 150,
+      0, 150,
+      30, 0,
+      30, 150,
 
-function setRectangle(gl, x, y, width, height, degrees) {
-  {
-    let rot = (() => {
-      let rotation = degrees * (Math.PI / 180);
-      let cos = Math.cos(rotation);
-      let sin = Math.sin(rotation);
-      let halfW = width / 2;
-      let halfH = height / 2;
-      return (arr) => {
-        let result = [];
-        for (let i = 0; i < arr.length; i = i + 2) {
-          let xo = arr[i] - halfW - x;
-          let yo = arr[i + 1] - halfH - y;
-          let nx = cos * xo + sin * yo;
-          let ny = cos * yo - sin * xo;
-          result.push(nx + halfW + x);
-          result.push(ny + halfH + y);
-        }
-        return result;
-      };
-    })();
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array(
-        // prettier-ignore
-        rot([
-          x, y,
-          x, y + height,
-          x + width, y + height,
+      // top rung
+      30, 0,
+      100, 0,
+      30, 30,
+      30, 30,
+      100, 0,
+      100, 30,
 
-          x, y,
-          x + width, y,
-          x + width, y + height,
-
-          x + width, y + height,          
-          x + width +  (height / 2), y + height,          
-          x + width, y + height - width,
-          
-          x + width, y + height - width,
-          x + width + (height / 2), y + height,
-          x + width + (height / 2), y + height - width,
-
-          x + width, y + height,          
-          x + width +  (height / 2), y + height,          
-          x + width, y + height - width,
-          
-          x + width, y + height - width,
-          x + width + (height / 2), y + height,
-          x + width + (height / 2), y + height - width,
-
-          x + width, y + (height / 2) + width,
-          x + width + (height / 3), y + (height / 2) + width,   
-          x + width, y + (height / 2),
-
-          x + width, y + (height / 2),
-          x + width + (height / 3), y + (height / 2) + width,
-          x + width + (height / 3), y + (height / 2),
-        ])
-      ),
-      gl.STATIC_DRAW
-    );
-  }
+      // middle rung
+      30, 60,
+      67, 60,
+      30, 90,
+      30, 90,
+      67, 60,
+      67, 90]),
+    gl.STATIC_DRAW);
 }

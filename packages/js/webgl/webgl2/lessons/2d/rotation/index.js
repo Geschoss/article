@@ -1,1 +1,0 @@
-export { rotation_1 } from './rotation_1';
