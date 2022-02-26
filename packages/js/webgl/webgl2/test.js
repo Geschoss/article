@@ -1,10 +1,25 @@
-let rotation = 0 * (Math.PI / 180);
-let cos = Math.cos(rotation);
-let sin = Math.sin(rotation);
-rotation /* ? */
-cos /* ? */
-sin /* ? */
-let nx = (x, y) => cos * x - sin * y;
-let ny = (x, y) => cos * y + sin * x;
-nx(150, 250) /* ? */
-ny(150, 250) /* ? */
+[
+  // left column
+  0, 0, 0,
+  30, 0, 0,
+  0, 150, 0,
+  0, 150, 0,
+  30, 0, 0,
+  30, 150, 0,
+
+  // top rung
+  30, 0, 0,
+  100, 0, 0,
+  30, 30, 0,
+  30, 30, 0,
+  100, 0, 0,
+  100, 30, 0,
+
+  // middle rung
+  30, 60, 0,
+  67, 60, 0,
+  30, 90, 0,
+  30, 90, 0,
+  67, 60, 0,
+  67, 90, 0
+].length/3 /* ? */

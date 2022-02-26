@@ -33,6 +33,6 @@ const createSdk = () => {
 
 const sdk = createSdk();
 
-export const keydown = (callback, logkeys = false) => {
-  sdk.addConf(callback(), logkeys);
+export const keydown = (config, logkeys = false) => {
+  sdk.addConf(config, logkeys);
 };
