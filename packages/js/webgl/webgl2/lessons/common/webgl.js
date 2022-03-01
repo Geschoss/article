@@ -54,15 +54,23 @@ const webglSDK = () => {
 
   return {
     init,
+    /** depricated */
     createVShader: (source) => {
       vertexS = createVShader(gl, source);
     },
+    /** depricated */
     createFShader: (source) => {
       fragmetnS = createFShader(gl, source);
     },
+    /** depricated */
     createProgram: () => {
       return createProgram(gl, vertexS, fragmetnS);
     },
+    createProgramFromSources: (gl, vertexShaderSource, fragmentShaderSource) => {
+      const vertexS = createVShader(gl, vertexShaderSource);
+      const fragmetnS = createFShader(gl, fragmentShaderSource);
+      return createProgram(gl, vertexS, fragmetnS);
+    }
   };
 };
 

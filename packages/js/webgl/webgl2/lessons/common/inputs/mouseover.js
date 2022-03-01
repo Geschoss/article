@@ -1,7 +1,10 @@
 
-export const mouseover = (config, canvas) => {
+export const mouseover = (config, canvas, test) => {
   // TODO lazy
   canvas.onmousemove = (e) => {
+    if (test) {
+      console.log(e);
+    }
     const { movementX, movementY } = e;
     if (movementX !== 0) {
       const h = config['h'];
@@ -17,7 +20,7 @@ export const mouseover = (config, canvas) => {
     };
     let afterAll = config.afterAll;
     if (config.afterAll) {
-      afterAll();
+      afterAll(e);
     }
   }
 };
