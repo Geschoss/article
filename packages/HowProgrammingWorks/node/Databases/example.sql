@@ -14,7 +14,8 @@ CREATE TABLE SystemGroup (
   Name  varchar(64) NOT NULL
 );
 
-ALTER TABLE SystemGroup ADD CONSTRAINT pkSystemGroup PRIMARY KEY (Id);
+ALTER TABLE SystemGroup
+ADD CONSTRAINT pkSystemGroup PRIMARY KEY (Id);
 
 CREATE UNIQUE INDEX akSystemGroupName ON SystemGroup (Name);
 
@@ -23,9 +24,17 @@ CREATE TABLE GroupUser (
   UserId   integer NOT NULL
 );
 
-ALTER TABLE GroupUser ADD CONSTRAINT pkGroupUser PRIMARY KEY (GroupId, UserId);
-ALTER TABLE GroupUser ADD CONSTRAINT fkGroupUserGroupId FOREIGN KEY (GroupId) REFERENCES SystemGroup (Id) ON DELETE CASCADE;
-ALTER TABLE GroupUser ADD CONSTRAINT fkGroupUserUserId FOREIGN KEY (UserId) REFERENCES SystemUser (Id) ON DELETE CASCADE;
+ALTER TABLE GroupUser
+ADD CONSTRAINT pkGroupUser
+PRIMARY KEY (GroupId, UserId);
+
+ALTER TABLE GroupUser
+ADD CONSTRAINT fkGroupUserGroupId
+FOREIGN KEY (GroupId) REFERENCES SystemGroup (Id) ON DELETE CASCADE;
+
+ALTER TABLE GroupUser
+ADD CONSTRAINT fkGroupUserUserId
+FOREIGN KEY (UserId) REFERENCES SystemUser (Id) ON DELETE CASCADE;
 
 CREATE TABLE Session (
   Id      serial,
@@ -35,8 +44,11 @@ CREATE TABLE Session (
   Data    text
 );
 
-ALTER TABLE Session ADD CONSTRAINT pkSession PRIMARY KEY (Id);
+ALTER TABLE Session
+ADD CONSTRAINT pkSession PRIMARY KEY (Id);
 
 CREATE UNIQUE INDEX akSession ON Session (Token);
 
-ALTER TABLE Session ADD CONSTRAINT fkSessionUserId FOREIGN KEY (UserId) REFERENCES Session (Id) ON DELETE CASCADE;
+ALTER TABLE Session
+ADD CONSTRAINT fkSessionUserId
+FOREIGN KEY (UserId) REFERENCES Session (Id) ON DELETE CASCADE;
