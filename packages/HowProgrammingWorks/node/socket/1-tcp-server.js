@@ -2,7 +2,7 @@
 
 const net = require('net');
 
-net.createServer(socket => {
+const server = net.createServer(socket => {
     socket.write('heart');
     console.log(socket.address());
     socket.on('data', data => {
