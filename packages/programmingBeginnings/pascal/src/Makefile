@@ -1,7 +1,13 @@
+ARTICLE = 2.5
+
 run:
-	fpc $(name).pas -o"build/$(name)" \
-	&& ./build/$(name) \
-	&& rm build/$(name) build/$(name).o
+	fpc ${ARTICLE}/$(name).pas -o"${ARTICLE}/build/$(name)" \
+	&& ./${ARTICLE}/build/$(name) \
+	&& rm ${ARTICLE}/build/$(name) ${ARTICLE}/build/$(name).o
 
 compile:
-	fpc $(name).pas -o"build/$(name)" \
+	fpc ${ARTICLE}/$(name).pas -o"${ARTICLE}/build/$(name)"
+
+create:
+	touch ${ARTICLE}/${name}.pas \
+	&& code ${ARTICLE}/${name}.pas
