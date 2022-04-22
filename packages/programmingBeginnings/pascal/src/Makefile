@@ -1,4 +1,4 @@
-ARTICLE = 2.5
+ARTICLE = 2.10
 
 run:
 	fpc ${ARTICLE}/$(name).pas -o"${ARTICLE}/build/$(name)" \
