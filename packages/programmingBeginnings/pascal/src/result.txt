@@ -1,1 +1,8 @@
--25536
+Welcome to Node.js v17.5.0.
+Type ".help" for more information.
+> 2
+> 3
+> 3
+> 5
+> 9
+> 
