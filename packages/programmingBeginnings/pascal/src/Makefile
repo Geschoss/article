@@ -1,4 +1,4 @@
-ARTICLE = 2.14
+ARTICLE = 2.9
 
 create_build:
 	if [ ! -d "${ARTICLE}/build" ]; then \
@@ -25,4 +25,3 @@ all: compile run clean
 create: create_article
 	touch ${ARTICLE}/${name}.pas \
 	&& code ${ARTICLE}/${name}.pas
-
