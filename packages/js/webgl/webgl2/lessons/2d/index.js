@@ -4,3 +4,4 @@ export { translation_1 } from './translation_1';
 export { fundamentals } from './fundamentals';
 export { scale } from './scale';
 export { matrices } from './matrices';
+export { texture } from './texture';
