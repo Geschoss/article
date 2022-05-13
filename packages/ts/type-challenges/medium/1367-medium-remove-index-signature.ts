@@ -34,8 +34,6 @@ type RemoveIndexSignature<T> = {
 };
 
 /* _____________ Test Cases _____________ */
-import { Equal, Expect } from '@type-challenges/utils';
-
 type Foo = {
     foo(): void;
     [key: string]: string;

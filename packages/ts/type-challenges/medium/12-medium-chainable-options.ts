@@ -15,11 +15,15 @@ class ChainableConfig {
         return this.object;
     }
 }
-type Merge<T> = { [K in keyof T]: T[K]}
+type Merge<T> = { [K in keyof T]: T[K] };
 type Chainable<Result = {}> = {
-    option<Key extends string, Value>(key: Key, value: Value): Chainable<Result & { [key in Key]: Value }>
-    get(): Merge<Result>
-}
+    option<Key extends string, Value>(
+        key: Key,
+        value: Value
+    ): Chainable<Result & { [key in Key]: Value }>;
+
+    get(): Merge<Result>;
+};
 const config: Chainable = new ChainableConfig();
 
 const resultChainable = config

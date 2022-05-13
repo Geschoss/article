@@ -40,6 +40,7 @@ declare function Currying<FN extends Function>(fn: FN): Curry<FN>;
 
 /* _____________ Test Cases _____________ */
 import { Equal, Expect } from '@type-challenges/utils';
+import { Tail } from '../medium/15-medium-last';
 
 const curried03 = Currying(() => true);
 const curried02 = Currying((a: string) => true);

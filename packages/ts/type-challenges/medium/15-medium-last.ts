@@ -1,5 +1,5 @@
 // Last firts try
-type Tail<A extends Array<any>> = ((...t: A) => any) extends (
+export type Tail<A extends Array<any>> = ((...t: A) => any) extends (
     _: any,
     ...rest: infer TT
 ) => any

@@ -4,7 +4,7 @@ interface TodoOmit {
     completed: boolean;
 }
 
-type MyOmit<T, K extends keyof T> = Pick<T, MyExclude<keyof T, K>>
+type MyOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 type TodoPreview = MyOmit<TodoOmit, 'description' | 'title'>;
 
