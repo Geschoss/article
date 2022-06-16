@@ -39,6 +39,8 @@ interface Model {
     isEnable: boolean;
 }
 
+type RD = OmitByType<{ name: string, a: unknown}, unknown>
+
 type cases = [
     Expect<Equal<OmitByType<Model, boolean>, { name: string; count: number }>>,
     Expect<
