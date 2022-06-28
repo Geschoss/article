@@ -17,7 +17,7 @@ create: create_article
 	touch ${ARTICLE}/${name}.asm
 
 run: create_build
-	./${ARTICLE}/build/$(name)
+	./${ARTICLE}/build/${name}
 
 clean:
 	rm -rf ${ARTICLE}/build

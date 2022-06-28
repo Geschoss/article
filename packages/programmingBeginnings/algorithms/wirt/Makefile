@@ -1,4 +1,8 @@
-ARTICLE = 2.14
+# make settings
+MAKEFLAGS += --silen
+
+# project settings
+ARTICLE = 1.4
 
 create_build:
 	if [ ! -d "${ARTICLE}/build" ]; then \
@@ -20,7 +24,6 @@ clean:
 	rm ${ARTICLE}/build/$(name) ${ARTICLE}/build/$(name).o
 
 all: compile run clean
-	echo ok
 
 create: create_article
 	touch ${ARTICLE}/${name}.pas \
