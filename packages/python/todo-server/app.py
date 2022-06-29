@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
 
@@ -23,3 +23,9 @@ def index():
 def todo():
     result = readFile("todo.txt")
     return result
+
+@app.route("/add", methods=['POST'])
+def add():
+    result = request.get_data(as_text=True)
+    print(str(result))
+    return 'success'
