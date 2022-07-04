@@ -5,7 +5,7 @@ MAKEFLAGS += --silen
 ARTICLE = 4_2
 
 # compile settings
-COMPILES_FLAGS = -Wall -g
+COMPILES_FLAGS = -Wall -g -lm
 
 create_build:
 	if [ ! -d "${ARTICLE}/build" ]; then \

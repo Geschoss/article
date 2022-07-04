@@ -16,8 +16,6 @@ procedure ReadWord(var f: Sequence; var w: word);
 procedure Close(var f: Sequence);
 
 implementation
-
-
 procedure Open(var f: Sequence);
 begin
   f.length := 0;

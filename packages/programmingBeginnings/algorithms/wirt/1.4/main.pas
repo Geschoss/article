@@ -1,8 +1,7 @@
 program types;
-uses FileSystem;
+uses FileSystem, Buffer;
 var
   f: Sequence;
-  // n: word = 10;
   w: word;
 begin
   Open(f);
@@ -10,8 +9,12 @@ begin
   WriteWord(f, 11);
   WriteWord(f, 12);
   Reset(f);
-  ReadWord(f, w);
-  writeln(w);
-  ReadWord(f, w);
+  while f.eof = false do
+  begin
+    ReadWord(f, w);
+    writeln(w);
+  end;
+  deposite(2223);
+  fetch(w);
   writeln(w)
 end.
