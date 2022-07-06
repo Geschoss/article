@@ -2,7 +2,7 @@
 MAKEFLAGS += --silen
 
 # project settings
-ARTICLE = 4_2
+ARTICLE = 4.3
 
 # compile settings
 COMPILES_FLAGS = -Wall -g -lm
