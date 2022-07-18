@@ -2,7 +2,7 @@
 MAKEFLAGS += --silen
 
 # project settings
-ARTICLE = 4.3
+ARTICLE = 4.4
 
 # compile settings
 COMPILES_FLAGS = -Wall -g -lm
@@ -15,10 +15,12 @@ create_build:
 build: create_build
 	clang ${COMPILES_FLAGS} ${ARTICLE}/${name}.c -o ${ARTICLE}/build/${name}
 
-run:
+exec:
 	./${ARTICLE}/build/${name}
 
 clean:
 	rm -rf ${ARTICLE}/build
 
-all: build run clean
+all: build exec clean
+
+run: build exec
