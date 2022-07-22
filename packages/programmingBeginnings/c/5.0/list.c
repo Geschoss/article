@@ -90,6 +90,26 @@ void delete_int_list_rec_2(struct item *lst)
   }
 }
 
+void remove_negative(const struct item *lst)
+{
+  struct item **pcur;
+  pcur = &lst;
+  while (*pcur)
+  {
+    if ((*pcur)->data < 0)
+    {
+      struct item *tmp = *pcur;
+      *pcur = (*pcur)->next;
+      free(tmp);
+    }
+    else
+    {
+      pcur = &(*pcur)->next;
+    }
+  }
+}
+
+
 // sum
 int int_list_sum(const struct item *lst)
 {
@@ -173,6 +193,20 @@ int main()
   printf("sum = %d\n", sum_list_short(list_sum));
   printf("sum = %d\n", sum_list_rec(list_sum));
   printf("sum = %d\n", sum_list_one(list_sum));
+
+  int remove_arr[size] = {5, -2, 3, -4, 1};
+  struct item *remove_list;
+
+  printf("remove_arr[2] = %d\n", remove_arr[1]);
+
+  remove_list = create_list_2(remove_arr, size);
+  remove_negative(remove_list);
+
+  while (remove_list)
+  {
+    printf("remove_list.data = %d\n", remove_list->data);
+    remove_list = remove_list->next;
+  }
 
   return 0;
 }
