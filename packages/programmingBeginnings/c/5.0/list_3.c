@@ -54,6 +54,20 @@ void remove_by_idx(struct item *lst, int idx)
     idx = idx - 1;
   }
 }
+struct item *remove_negative(struct item *pcur)
+{
+  struct item *res = pcur;
+  if (pcur)
+  {
+    pcur->next = remove_negative(pcur->next);
+    if (pcur->data < 0)
+    {
+      res = pcur->next;
+      free(pcur);
+    }
+  }
+  return res;
+}
 
 void show(struct item *lst)
 {
