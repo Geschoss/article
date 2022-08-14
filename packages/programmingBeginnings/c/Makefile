@@ -2,10 +2,11 @@
 MAKEFLAGS += --silen
 
 # project settings
-ARTICLE = 4.7
+ARTICLE = 4.11
+# ARTICLE = 1
 
 # compile settings
-COMPILES_FLAGS = -Wall -g -lm
+COMPILES_FLAGS = -Wall -g -lm -lncurses 
 
 create_build:
 	if [ ! -d "${ARTICLE}/build" ]; then \
