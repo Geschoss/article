@@ -44,7 +44,7 @@ class ControllerSDK {
 
   watch(file) {
     watch(
-      file.paths,
+      file.watchPaths,
       debounce(() => {
         this.vm.run(file).then(() => {
           this.runTest(file);

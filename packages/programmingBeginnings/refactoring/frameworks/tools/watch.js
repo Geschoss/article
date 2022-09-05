@@ -2,9 +2,11 @@
 
 const fs = require('fs');
 
-const watch = (file, cb) => {
-  fs.watch(file.filepath, (e) => {
-    cb(e, file);
+const watch = (watchPaths, cb) => {
+  watchPaths.forEach((filepath) => {
+    fs.watch(filepath, () => {
+      cb();
+    });
   });
 };
 

@@ -1,4 +1,4 @@
-const createStatementData = require('./createStatementData');
+const createStatementData = require('./createStatementData.js');
 
 function textStatement(invoice, plays) {
     return renderingPlainText(createStatementData(invoice, plays));
@@ -10,7 +10,7 @@ function renderingPlainText(data) {
         result += ` (${perf.audience} seats)\n`;
     }
 
-    result += `Amount owed is ${usd(data.totalAmount / 100)}\n`;
+    result += `Amount owed is ${usd(data.totalAmount /100)}\n`;
     result += `You earned ${data.totalVolumeCredits} credits\n`;
 
     return result;
