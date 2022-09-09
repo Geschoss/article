@@ -1,73 +1,96 @@
+class PerfomanceCalculator {
+  constructor(aPerfomance, aPlay) {
+    this.perfomance = aPerfomance;
+    this.play = aPlay;
+  }
+  get amount() {
+    throw new Error('Subclass responsibility');
+  }
+  get volumeCredits() {
+    return Math.max(this.perfomance.audience - 30, 0);
+  }
+}
+
+class TragedyCalculator extends PerfomanceCalculator {
+  get amount() {
+    let result = 400000;
+    if (this.perfomance.audience > 30) { 
+      result += 1000 * (this.perfomance.audience - 30);
+    }
+    return result;
+  }
+}
+class ComedyCalculator extends PerfomanceCalculator {
+  get volumeCredits() {
+    return super.volumeCredits + Math.floor(this.perfomance.audience / 5);
+  }
+}
+
+function createPerfomanceCalculator(aPerfomance, aPlay) {
+  switch (aPlay.type) {
+    case 'tragedy':
+      return new TragedyCalculator(aPerfomance, aPlay);
+    case 'comedy':
+      return new ComedyCalculator(aPerfomance, aPlay);
+    default:
+      throw new Error(`unknown type: ${aPlay.type}`);
+  }
+}
+
 function createStatementData(invoice, plays) {
-    const statementData = {};
-    statementData.customer = invoice.customer;
-    statementData.preformances = invoice.preformances.map(enrichPerfomance);
-    statementData.totalAmount = totalAmount(statementData);
-    statementData.totalVolumeCredits = totalVolumeCredits(statementData);
-    return statementData;
+  const statementData = {};
+  statementData.customer = invoice.customer;
+  statementData.preformances = invoice.preformances.map(enrichPerfomance);
+  statementData.totalAmount = totalAmount(statementData);
+  statementData.totalVolumeCredits = totalVolumeCredits(statementData);
+  return statementData;
 
-    function enrichPerfomance(aPerfomance) {
-        const result = Object.assign({}, aPerfomance);
-        result.play = playFor(result);
-        result.amount = amountFor(result);
-        result.volumeCredits = volumeCreditsFor(result);
-        return result;
+  function enrichPerfomance(aPerfomance) {
+    const calculator = createPerfomanceCalculator(
+      aPerfomance,
+      playFor(aPerfomance)
+    );
+    const result = Object.assign({}, aPerfomance);
+    result.play = calculator.play;
+    result.amount = calculator.amount;
+    result.volumeCredits = calculator.volumeCredits;
+
+    return result;
+  }
+
+  function playFor(aPerfomance) {
+    return plays[aPerfomance.playID];
+  }
+
+  function amountFor(aPerfomance) {
+    return new PerfomanceCalculator(aPerfomance, playFor(aPerfomance)).amount;
+  }
+
+  function volumeCreditsFor(aPerfomance) {
+    let result = 0;
+
+    result += Math.max(aPerfomance.audience - 30, 0);
+    if ('comedy' === aPerfomance.play.type) {
+      result += Math.floor(aPerfomance.audience / 5);
     }
+    return result;
+  }
 
-    function playFor(aPerfomance) {
-        return plays[aPerfomance.playID];
+  function totalVolumeCredits(data) {
+    let result = 0;
+    for (let perf of data.preformances) {
+      result += perf.volumeCredits;
     }
+    return result;
+  }
 
-    function amountFor(aPerfomance) {
-        let result = 0;
-        switch (aPerfomance.play.type) {
-            case 'tragedy':
-                result = 400000;
-
-                if (aPerfomance.audience > 30) {
-                    result += 1000 * (aPerfomance.audience - 30);
-                }
-                break;
-            case 'comedy':
-                result = 30000;
-
-                if (aPerfomance.audience > 20) {
-                    result += 10000 + 500 * (aPerfomance.audience - 20);
-                }
-
-                result += 300 * aPerfomance.audience;
-                break;
-            default:
-                throw new Error(`unknown type: ${aPerfomance.play.type}`);
-        }
-        return result;
+  function totalAmount(data) {
+    let result = 0;
+    for (let perf of data.preformances) {
+      result += perf.amount;
     }
-
-    function volumeCreditsFor(aPerfomance) {
-        let result = 0;
-
-        result += Math.max(aPerfomance.audience - 30, 0);
-        if ('comedy' === aPerfomance.play.type) {
-            result += Math.floor(aPerfomance.audience / 5);
-        }
-        return result;
-    }
-
-    function totalVolumeCredits(data) {
-        let result = 0;
-        for (let perf of data.preformances) {
-            result += perf.volumeCredits;
-        }
-        return result;
-    }
-
-    function totalAmount(data) {
-        let result = 0;
-        for (let perf of data.preformances) {
-            result += perf.amount;
-        }
-        return result;
-    }
+    return result;
+  }
 }
 
 module.exports = createStatementData;

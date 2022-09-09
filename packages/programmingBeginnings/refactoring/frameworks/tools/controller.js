@@ -9,6 +9,7 @@ class ControllerSDK {
     this.files = {};
     this.logger = logger;
     this.errors = {};
+    this.success = true;
   }
 
   run({ filePattern, projectPath }) {
@@ -57,27 +58,36 @@ class ControllerSDK {
 
   runTest({ paths, tests }) {
     tests.forEach((test) => {
-      test.cb(
-        testikApi.expect((result) => {
-          test.result = result;
-        })
-      );
+      try {
+        test.cb(
+          testikApi.expect((result) => {
+            test.result = result;
+          })
+        );
+      } catch (e) {}
     });
   }
 
   findErrors({ paths, tests }) {
-    let errors = tests.filter(
-      ({ result }) => result.status === 'Error'
-    );
-    if (errors.length === 0) {
-      delete this.errors[paths.filepath];
-      return;
-    }
+    try {
+      let errors = tests.filter(({ result }) => result.status === 'Error');
+      if (errors.length === 0) {
+        delete this.errors[paths.filepath];
+        this.success = true;
+        return;
+      }
 
-    this.errors[paths.filepath] = errors;
+      this.errors[paths.filepath] = errors;
+      this.success = true;
+    } catch (e) {
+      this.success = false;
+    }
   }
 
   printErrors() {
+    if (!this.success) {
+      return;
+    }
     console.clear();
     let fileErrors = map(
       (errors, filepath) => ({

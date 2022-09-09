@@ -49,7 +49,6 @@ function requireApi(dirname, watchPaths, sandbox) {
     const importPath = path.join(dirname, name);
 
     watchPaths.push(importPath);
-    require.cache = {};
 
     return executeFile(sandbox, importPath, watchPaths);
   };
@@ -72,7 +71,7 @@ function executeFile(sandbox, filepath, watchPaths) {
     script = new vm.Script(srcFn, { timeout: PARSING_TIMEOUT });
   } catch (e) {
     console.dir(e);
-    throw new Error('vm.Script error');
+    return;
   }
 
   try {
@@ -87,7 +86,7 @@ function executeFile(sandbox, filepath, watchPaths) {
     }
   } catch (e) {
     console.dir(e);
-    throw new Error('script.runInNewContext error');
+    return;
   }
 }
 
