@@ -43,6 +43,7 @@ function createStatementData(invoice, plays) {
   statementData.preformances = invoice.preformances.map(enrichPerfomance);
   statementData.totalAmount = totalAmount(statementData);
   statementData.totalVolumeCredits = totalVolumeCredits(statementData);
+
   return statementData;
 
   function enrichPerfomance(aPerfomance) {
@@ -60,20 +61,6 @@ function createStatementData(invoice, plays) {
 
   function playFor(aPerfomance) {
     return plays[aPerfomance.playID];
-  }
-
-  function amountFor(aPerfomance) {
-    return new PerfomanceCalculator(aPerfomance, playFor(aPerfomance)).amount;
-  }
-
-  function volumeCreditsFor(aPerfomance) {
-    let result = 0;
-
-    result += Math.max(aPerfomance.audience - 30, 0);
-    if ('comedy' === aPerfomance.play.type) {
-      result += Math.floor(aPerfomance.audience / 5);
-    }
-    return result;
   }
 
   function totalVolumeCredits(data) {

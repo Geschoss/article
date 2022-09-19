@@ -16,11 +16,11 @@ class ControllerSDK {
     findFiles(projectPath, filePattern).then((files) => {
       this.files = files.reduce(
         (acc, file) => ({
-          ...acc,
           [file.filepath]: {
             paths: file,
             tests: [],
           },
+          ...acc,
         }),
         {}
       );
@@ -29,11 +29,7 @@ class ControllerSDK {
   }
 
   findTest() {
-    Promise.all(
-      map((file) => {
-        return this.vm.run(file);
-      }, this.files)
-    ).then(() => {
+    Promise.all(map((file) => this.vm.run(file), this.files)).then(() => {
       forIn((file) => {
         this.runTest(file);
         this.findErrors(file);
@@ -56,7 +52,7 @@ class ControllerSDK {
     );
   }
 
-  runTest({ paths, tests }) {
+  runTest({ tests }) {
     tests.forEach((test) => {
       try {
         test.cb(
