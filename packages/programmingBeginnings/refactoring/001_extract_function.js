@@ -1,5 +1,5 @@
 /* Извлечение функции (Extract Function)
-  
+
   Бывший рефакторинг _Извлечение метода_
   Обратный к рефакторингу _Встраивание функции_
 
@@ -10,7 +10,7 @@ function printOwing_b(invoice) {
   printBanner();
   let outstanding = calculateOutstandiing();
 
-  console.log(`name: ${invoce.customer}`);
+  console.log(`name: ${invoice.customer}`);
   consol.elog(`amount: ${outstanding}`)
 }
 // after
