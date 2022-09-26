@@ -22,6 +22,4 @@ exec:
 clean:
 	rm -rf ${ARTICLE}/build
 
-all: build exec clean
-
-run: build exec
+all: clean build exec
