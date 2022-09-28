@@ -82,3 +82,53 @@ _Three key steps of knowledge-based agent:
 - the stimulus must be translatd into an internal representation
 - the representation is manipulated by cognitive processes to derive new internal representations
 - these are in turn retranslated back into action
+
+**Donalf Broadbent**
+_Perception and Communicatioin_ (1958) - one of the first works to model psychological phenomena as information processing.
+**cognitive science**
+
+**George Miller**
+_The Magic Number Seven_
+
+**Noam Chomsky**
+_Three Models of Language_
+
+**Allen Newell** && **Herbert Simon**
+_The Logic Theory Machine_
+
+
+**human-computer interaction** (HCI)
+**intelligence augmentation**
+
+
+#### 1.2.6 Computer engineering
+- How can we build an effcient computer?
+
+_Z-3_ - first operationsl programmable computer, the invention of Konrad Zuse
+
+_Plankalkul_ - first high-level programming language
+_Moore's law_ - increase in speed and capacity and a decrease in price
+_Quantum computing_
+
+#### 1.2.7 Control theory and cybernetics
+- How can artifacts operate under their own control?
+
+*Cornelis Drebbel* 1572-1633
+thermostat and the submarine
+
+*Norbert Wiener* 1894-1964
+_control theory_
+_Cybernetics_ (1948) - book, became a bestseller and awoke the public to the possibility of artificially intellignet machines.
+_homeostatic_ - devices containning appropriate feedback loops to achhieve stable adaptive behavior
+
+#### 1.2.8 Linguistics
+- How does language relate to thought?
+
+**B.F. Skinner**
+_Verbal Behavior_ 1957 
+
+**Noam Chomsky**
+_Syntatic Structures_
+
+_computation linguistics_ or _natural language processing_
+
