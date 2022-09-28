@@ -11,7 +11,7 @@ function printOwing_b(invoice) {
   let outstanding = calculateOutstandiing();
 
   console.log(`name: ${invoice.customer}`);
-  consol.elog(`amount: ${outstanding}`)
+  console.log(`amount: ${outstanding}`)
 }
 // after
 function printOwing_a(invoice) {
