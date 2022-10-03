@@ -39,3 +39,5 @@ A common feature of symbolci systems is a trade-off: when solving a problem the 
 frustration about that successes on simple problem din't seem to scale to more difficult ptoblems.
 neural networks, genetic algorithms simulated annealing.
 techniques could be explained mathematically
+
+**Engineering**
