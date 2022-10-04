@@ -41,3 +41,15 @@ neural networks, genetic algorithms simulated annealing.
 techniques could be explained mathematically
 
 **Engineering**
+
+
+#### Game AI
+
+
+### 1.2 Model of Game AI
+AI task into three partial sections:
+- movement
+- decision making
+- strategy
+
+#### 1.2.1 Movement
