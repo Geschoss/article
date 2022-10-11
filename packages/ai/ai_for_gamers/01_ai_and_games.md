@@ -53,3 +53,9 @@ AI task into three partial sections:
 - strategy
 
 #### 1.2.1 Movement
+Movement refers to algorithms that turn decisions into sime kind of montion
+
+#### 1.2.2 Decision Making
+Decision making involves a character working out what to do next
+
+#### 1.2.3 Strategy
