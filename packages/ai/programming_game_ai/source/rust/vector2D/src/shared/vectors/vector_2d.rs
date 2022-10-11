@@ -1,24 +1,42 @@
 use std::fmt;
-use std::ops;
+use std::ops::{Add, Mul, Sub};
 
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Vector2d {
     x: f64,
     y: f64,
 }
 
-impl PartialEq for Vector2d {
-    fn eq(&self, other: &Self) -> bool {
-        return self.x == other.x && self.y == other.y;
+impl Add for Vector2d {
+    type Output = Self;
+
+    fn add(self, other: Self) -> Self {
+        Self {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
     }
 }
 
-impl ops::Mul<f64> for Vector2d {
+impl Mul<f64> for Vector2d {
     type Output = Self;
 
-    fn mul(mut self, _rhs: f64) -> Self::Output {
-        self.x = self.x * _rhs;
-        self.y = self.y * _rhs;
-        return self;
+    fn mul(self, rhs: f64) -> Self {
+        Self {
+            x: self.x * rhs,
+            y: self.y * rhs,
+        }
+    }
+}
+
+impl Sub for Vector2d {
+    type Output = Self;
+
+    fn sub(self, other: Self) -> Self {
+        Self {
+            x: self.x - other.x,
+            y: self.y - other.y,
+        }
     }
 }
 
@@ -45,11 +63,13 @@ impl Vector2d {
         return self.x.powf(2.0) + self.y.powf(2.0);
     }
 
-    pub fn normalize(&mut self) {
+    pub fn normalize(&self) -> Self {
         let l = self.length();
 
-        self.x = self.x / l;
-        self.y = self.y / l;
+        return Self {
+            x: self.x / l,
+            y: self.y / l,
+        };
     }
     pub fn dot(&self, v2: &Vector2d) -> f64 {
         return self.x * v2.x + self.y * v2.y;
@@ -67,14 +87,43 @@ impl Vector2d {
             y: self.x,
         };
     }
-    // pub fn truncate(&self, max: f64) -> Vector2D {
-    //     if self.length() > max {
-    //         let vec = self.normalize();
-    //         return vec * max;
-    //     }
-    //     return Vector2D {
-    //         x: self.x,
-    //         y: self.y,
-    //     };
-    // }
+
+    pub fn mul(&self, _rhs: f64) -> Self {
+        return Self {
+            x: self.x * _rhs,
+            y: self.y * _rhs,
+        };
+    }
+
+    pub fn truncate(&self, max: f64) -> Self {
+        if self.length() > max {
+            let vec = self.normalize();
+            return vec.mul(max);
+        }
+        return Self {
+            x: self.x,
+            y: self.y,
+        };
+    }
+
+    pub fn distance(&self, v2: &Vector2d) -> f64 {
+        let y_separation = v2.y - self.y;
+        let x_separation = v2.x - self.x;
+
+        return (y_separation.powi(2) + x_separation.powi(2)).sqrt();
+    }
+
+    pub fn distance_sq(&self, v2: &Vector2d) -> f64 {
+        let y_separation = v2.y - self.y;
+        let x_separation = v2.x - self.x;
+
+        return y_separation.powi(2) + x_separation.powi(2);
+    }
+
+    pub fn reverse(&self) -> Self {
+        return Self {
+            x: -self.x,
+            y: -self.y,
+        };
+    }
 }
