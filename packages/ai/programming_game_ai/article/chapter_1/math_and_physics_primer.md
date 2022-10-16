@@ -101,3 +101,50 @@ gives the angle between two vectors.
 _u . v = uxvx + uyvy_
 _u . v = |u||v|*cos(O)_
 _cos(O) = u . v / |u||v|_ => _cos(O) = u . v / 1*1_ => _cos(O) = u . v_
+
+#### Local space and World Space
+_world space_ - representation is normally what you see rendered to your screen. Every object is defined by a position and orientation _relatice to the origin of the world coordinate system_
+
+_local space_ - describes the position and orientation of objects relative to a specific entity's local coordinate system. An entity's local coordinate system can be defined by a facing vector and a side vector(representing the local x- and y-axis, respectivly), with the origin positioned ar the enter of the entity.
+
+#### Physics
+_The science of matter and energy and of the interactions between the two._
+
+##### Time
+Time is a scalar quantity(completely specified by its megnitude and with no direction) measured in seconds, abbreviated to _s_.
+_The suration of 9,192,631, 770 periods of the radiation corresponding to the transirion between the two hyperfine levels of the ground state of the cesium 133 atom_
+**virtual seconf** - intyerval between updates
+
+##### Distance
+The standard unit of distance - a scalar quantity - is the meter, abbreviated to _m_.
+
+##### Mass
+Mass is a scalar quantity measured in kilograms, abbreviated to _kg_. Mass is the measure of an _amount_ of something.
+yet mass is not a unit of weight; it is a unit of _matter_
+
+##### Position
+_center of mass_
+
+##### Velocity
+Velocity is a vector quantity(a quantity that has magnitude and direction) that expresses _the rate of change of distance over time_.
+unit: metter per second, _m/s_
+
+_v=dx/dt_
+
+_dx=vdt_
+
+##### Acceleration
+is the a vector quantity that expresses _the rate of change of velocity over time_
+
+_a=dv/dt_
+
+
+##### Force
+_An impressed force is an action exerted upon a body in order to change its state, either of rest, or of uniform motion in a right line._
+_The force required to make a one-kilogram mass move from rest to a speed of one meter per second in one second._
+
+Type of forces:
+- contect
+- non-contact
+
+_F=ma_
