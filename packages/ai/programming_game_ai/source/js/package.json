@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
