@@ -24,3 +24,41 @@ Patrol  -> Threatened && StrongerThanenamy  -> Attack
 Patrol  -> THreatened && WeakerThatEnemy    -> RunAway
 
 ### Embedded Rules
+```c++
+class State {
+public:
+  virtual void execute(Troll* troll) = 0;
+};
+class Troll {
+  State* current_state;
+public:
+  void update() {
+    current_state->execute(this);
+  }
+  void change_state(const State* state) {
+    delete current_state;
+    current_state = state;
+  }
+}
+
+class RunAway : public State {
+public:
+  void execute(Troll* troll) {
+    if (troll->is_safe()) {
+      troll->change_state(new Sleep());
+    } else {
+      troll->move_away_from_enemy();
+    }
+  }
+};
+class Sleep : public State {
+public:
+  void execute(Troll* troll) {
+    if (troll->is_treatened()) {
+      troll->change_state(new RunAway());
+    } else {
+      troll-Snore();
+    }
+  }
+};
+```
