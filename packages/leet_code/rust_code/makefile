@@ -1,5 +1,5 @@
 main:
-	cargo test problems::max_profit::max_profit_test -- --nocapture
+	cargo test problems::detect_cycle::detect_cycle_test -- --nocapture
 
 all:
 	cargo test -- --nocapture	
