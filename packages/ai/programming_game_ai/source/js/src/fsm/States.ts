@@ -11,7 +11,9 @@ export class GoHomeAndSleepTilRested implements State<Miner> {
   }
   execute(miner: Miner): void {
     if (miner.fatigued()) {
-      console.log(`\n ${miner.name}: What a God darn fantastic nap! Time to find more gold!`);
+      console.log(
+        `\n ${miner.name}: What a God darn fantastic nap! Time to find more gold!`
+      );
       miner.change_state(new EnterMineAndDigForNugget());
     } else {
       miner.decrease_fatigue();
@@ -43,7 +45,9 @@ export class EnterMineAndDigForNugget implements State<Miner> {
     }
   }
   exit(miner: Miner): void {
-    console.log(`\n ${miner.name}: Ah'm leavin' the gold mine with mah pockets full o' sweet gold`);
+    console.log(
+      `\n ${miner.name}: Ah'm leavin' the gold mine with mah pockets full o' sweet gold`
+    );
   }
 }
 
@@ -56,7 +60,11 @@ export class VisitBankAndDepositGold implements State<Miner> {
     }
   }
   execute(miner: Miner): void {
-    
+    miner.add_to_wealth(miner.gold_carried);
+    miner.gold_carried = 0;
+    console.log(
+      `\n ${miner.name}: Depositing gold. Total saving now: ${miner.money_in_back}`
+    );
   }
   exit(miner: Miner): void {
     throw new Error('Method not implemented.');

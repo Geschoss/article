@@ -9,11 +9,11 @@ const MAX_TIREDNESS_THRESHOLD = 5;
 export class Miner extends BaseGameEntity {
   name: string;
   location: Location;
+  gold_carried: number;
+  money_in_back: number;
   private thirst: number;
   private fatigue: number;
-  private gold_carried: number;
   private current_state: State<Miner>;
-  private money_in_back: number;
   constructor(name: string) {
     super();
     this.name = name;
@@ -66,5 +66,13 @@ export class Miner extends BaseGameEntity {
 
   fatigued() {
     return this.fatigue > MAX_TIREDNESS_THRESHOLD;
+  }
+
+  add_to_wealth(value: number) {
+    this.money_in_back += value;
+    if (this.money_in_back < 0) {
+      this.money_in_back = 0;
+    }
+
   }
 }
