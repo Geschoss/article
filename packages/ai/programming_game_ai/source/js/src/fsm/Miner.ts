@@ -7,13 +7,14 @@ const MAX_TRIRST_LEVEL = 5;
 const MAX_TIREDNESS_THRESHOLD = 5;
 
 export class Miner extends BaseGameEntity {
-  name: string;
+  readonly name: string;
   location: Location;
   gold_carried: number;
   money_in_back: number;
-  private thirst: number;
-  private fatigue: number;
-  private current_state: State<Miner>;
+  thirst: number;
+  fatigue: number;
+  current_state: State<Miner>;
+
   constructor(name: string) {
     super();
     this.name = name;
