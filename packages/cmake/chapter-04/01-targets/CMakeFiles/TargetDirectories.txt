@@ -1,0 +1,7 @@
+/Users/pako/Projects/home/article/packages/cmake/chapter-04/01-targets/CMakeFiles/terminal_app.dir
+/Users/pako/Projects/home/article/packages/cmake/chapter-04/01-targets/CMakeFiles/gui_app.dir
+/Users/pako/Projects/home/article/packages/cmake/chapter-04/01-targets/CMakeFiles/calculations.dir
+/Users/pako/Projects/home/article/packages/cmake/chapter-04/01-targets/CMakeFiles/drawing.dir
+/Users/pako/Projects/home/article/packages/cmake/chapter-04/01-targets/CMakeFiles/checksum.dir
+/Users/pako/Projects/home/article/packages/cmake/chapter-04/01-targets/CMakeFiles/edit_cache.dir
+/Users/pako/Projects/home/article/packages/cmake/chapter-04/01-targets/CMakeFiles/rebuild_cache.dir
