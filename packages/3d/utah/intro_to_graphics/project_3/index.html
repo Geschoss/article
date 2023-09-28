@@ -1,0 +1,30 @@
+<doctype html>
+    <html>
+
+    <head>
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <canvas id="canvas"></canvas>
+        <svg id="overlay">
+            <path id="curve" />
+            <g id="lines">
+                <line id="line0" />
+                <line id="line1" />
+                <line id="line2" />
+            </g>
+            <circle id="p0" />
+            <circle id="p1" />
+            <circle id="p2" />
+            <circle id="p3" />
+        </svg>
+        <script src="webgl.js"></script>
+        <script src="lineDrawer.js"></script>
+        <script src="curveDrawer.js"></script>
+        <script src="app.js"></script>
+    </body>
+
+    </html>
