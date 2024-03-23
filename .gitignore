@@ -2,6 +2,8 @@
 
 # dependencies
 node_modules
+__pucach__
+cmake-build-debug
 
 # testing
 coverage
@@ -9,6 +11,7 @@ coverage
 # production
 build
 target
+*.o
 
 # misc
 .DS_Store
