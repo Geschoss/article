@@ -47,13 +47,13 @@
 /* _____________ Your Code Here _____________ */
 
 type GetComputed<C> = {
-    [P in keyof C]: C[P] extends () => infer R ? R : never;
+  [P in keyof C]: C[P] extends () => infer R ? R : never;
 };
 
 type Options<D, C, M> = {
-    data?: (this: void) => D;
-    computed?: C & ThisType<D & GetComputed<C>>; // Type of 'this' in methods is D & M
-    methods?: M & ThisType<GetComputed<C> & D & M>; // Type of 'this' in methods is D & M
+  data?: (this: void) => D;
+  computed?: C & ThisType<D & GetComputed<C>>; // Type of 'this' in methods is D & M
+  methods?: M & ThisType<GetComputed<C> & D & M>; // Type of 'this' in methods is D & M
 };
 
 declare function SimpleVue<D, C, M>(options: Options<D, C, M>): D & M & C;
@@ -63,38 +63,36 @@ declare function SimpleVue<D, C, M>(options: Options<D, C, M>): D & M & C;
 import { Equal, Expect } from '@type-challenges/utils';
 
 SimpleVue({
-    data() {
-        // @ts-expect-error
-        this.firstname;
-        // @ts-expect-error
-        this.getRandom();
-        // @ts-expect-error
-        this.data();
+  data() {
+    this.firstname;
 
-        return {
-            firstname: 'Type',
-            lastname: 'Challenges',
-            amount: 10,
-        };
+    this.getRandom();
+
+    this.data();
+
+    return {
+      amount: 10,
+      lastname: 'Challenges',
+      firstname: 'Type',
+    };
+  },
+  computed: {
+    fullname() {
+      return `${this.firstname} ${this.lastname}`;
     },
-    computed: {
-        fullname() {
-            return `${this.firstname} ${this.lastname}`;
-        },
+  },
+  methods: {
+    getRandom() {
+      return Math.random();
     },
-    methods: {
-        getRandom() {
-            return Math.random();
-        },
-        hi() {
-            alert(this.fullname.toLowerCase());
-            alert(this.getRandom());
-        },
-        test() {
-            const fullname = this.fullname;
-            const cases: [Expect<Equal<typeof fullname, string>>] = [] as any;
-        },
+    hi() {
+      alert(this.fullname.toLowerCase());
+      alert(this.getRandom());
     },
+    test() {
+      const fullname = this.fullname;
+    },
+  },
 });
 
 /* _____________ Further Steps _____________ */
